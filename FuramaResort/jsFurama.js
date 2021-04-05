@@ -79,13 +79,6 @@ class Employee {
     }
 }
 
-function menuEmployee() {
- let menuEmployee = "<ul>\n" +
-     "            <li><a href=\"#\" onclick=\"addNewEmployee()\">Add new employee</a></li>\n" +
-     "            <li><a href=\"#\" onclick=\"\">Display employee</a></li>\n" +
-     "        </ul>"
-    document.getElementById('menuEmployee').innerHTML=menuEmployee;
-}
 function addNewEmployee() {
     let formEmployee = "<h1>Nhập thông tin của nhân viên :</h1>\n" +
         "<form>\n" +
@@ -134,5 +127,4 @@ function addNewEmployee() {
         "        <a class=\"btn\" onclick=\"submit()\">Submit</a>\n" +
         "    </div>";
     document.getElementById('show').innerHTML = formEmployee;
-    document.getElementById('titleHome').innerText = '';
 }

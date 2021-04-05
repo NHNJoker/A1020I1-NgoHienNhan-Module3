@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Furama Resort</title>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="styleHome.css">
+    <script src="https://kit.fontawesome.com/366ca642bd.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<header class="home">
+    <div class="main">
+        <!--logo start -->
+        <div class="logo">
+            <img src="icon/logo (1).png" height="auto" width="50px"/>
+        </div>
+        <!--logo end-->
+        <!--button login start-->
+        <div class="btnLogin" id="myBtn">
+            <button type="button" id="login"><i class="fas fa-user-alt"></i></button>
+        </div>
+        <!--  button login end      -->
+
+
+        <!--banner menu start-->
+        <nav class="nav">
+            <ul>
+                <li><a href="home.html" onclick="home()"><i class="fas fa-home"></i> Home</a></li>
+                <li class="dropDown"><a href="#" class="dropBtn">Employee</a>
+                    <div class="dropdownContent">
+                        <ul>
+                            <li><a href="action.html" onclick="">Add new employee</a></li>
+                            <li><a href="action.html" onclick="">Display employee</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dropDown"><a href="action.html" onclick="" class="dropBtn">Customer</a>
+                    <div class="dropdownContent">
+                        <ul>
+                            <li><a href="action.html" onclick="">Add new customer</a></li>
+                            <li><a href="action.html" onclick="">Display customer</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dropDown"><a href="action.html" onclick="" class="dropBtn">Service</a>
+                    <div class="dropdownContent">
+                        <ul>
+                            <li><a href="action.html" onclick="">Add new service</a></li>
+                            <li><a href="action.html" onclick="">Display service</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dropDown"><a href="#" onclick="" class="dropBtn">Contract</a>
+                    <div class="dropdownContent">
+                        <ul>
+                            <li><a href="action.html" onclick="">Add new contract</a></li>
+                            <li><a href="action.html" onclick="">add new contract detail</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <div class="box">
+                        <div class="formSearch">
+                            <input type="text" id="search" placeholder="Search..."/>
+                            <button type="submit" class="btnSearch"><span class="icon"><i
+                                    class="fa fa-search"></i></span></button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <hr width="100%" color="white" class="line"/>
+        <!--banner menu end        -->
+    </div>
+</header>
+<!--    tile welcome start-->
+<div class="title">
+    <h1 id="titleHome">Welcome to Furama resort</h1>
+</div>
+<!--    tile welcome end-->
+<!--    slide show start-->
+<div class="slideShow">
+    <div class="slides">
+        <!-- radio buttons start           -->
+        <input type="radio" name="radioBtn" id="radio1">
+        <input type="radio" name="radioBtn" id="radio2">
+        <input type="radio" name="radioBtn" id="radio3">
+        <input type="radio" name="radioBtn" id="radio4">
+        <!-- radio buttons end           -->
+        <!--slide img start            -->
+        <div class="slideFirst">
+            <img src="image/slide1.jpg" alt="">
+        </div>
+        <div class="slide">
+            <img src="image/slide2.jpg" alt="">
+        </div>
+        <div class="slide">
+            <img src="image/slide3.jpg" alt="">
+        </div>
+        <div class="slide">
+            <img src="image/slide4.jpg" alt="">
+        </div>
+        <!--slide img end            -->
+        <!--automatic navigation start            -->
+        <div class="auto">
+            <div class="autoBtn1"></div>
+            <div class="autoBtn2"></div>
+            <div class="autoBtn3"></div>
+            <div class="autoBtn4"></div>
+        </div>
+        <!--automatic navigation end            -->
+    </div>
+    <!--manual navigation start                -->
+    <div class="manual">
+        <label for="radio1" class="manualBtn"></label>
+        <label for="radio2" class="manualBtn"></label>
+        <label for="radio3" class="manualBtn"></label>
+        <label for="radio4" class="manualBtn"></label>
+    </div>
+    <!--manual navigation end                -->
+</div>
+<!--slide show end-->
+<!--auto slide js start-->
+<script type="text/javascript">
+    let counter = 1;
+    setInterval(function () {
+        document.getElementById("radio" + counter).checked = true;
+        counter++;
+        if (counter > 4) {
+            counter = 1;
+        }
+    }, 5000);
+</script>
+<!--auto slide js end-->
+<!--button booking start    -->
+<div class="booking">
+    <button type="button" class="btnBooking"><a onclick="" href="#">Booking</a></button>
+</div>
+<!--button booking end    -->
+<!-- login wrapper start       -->
+<div class="wrapper" id="myWrapper">
+    <form action="">
+        <input type="text" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <input type="submit" value="LOGIN">
+    </form>
+    <div class="bottomText">
+        <input type="checkbox" name="remember" checked="checked">Remember me
+        <a href="#">Forgot password?</a>
+    </div>
+
+    <div class="socials">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="far fa-paper-plane"></i></a>
+        <a href="#"><i class="fab fa-twitter-square"></i></a>
+    </div>
+</div>
+<!-- login wrapper end        -->
+<script type="text/javascript">
+    let wrapper = document.getElementById("myWrapper");
+    let btn = document.getElementById("myBtn");
+
+    btn.onclick = function () {
+        wrapper.style.display = "block";
+    }
+
+    window.onclick = function (event) {
+        if (event.target === wrapper) {
+            wrapper.style.display = "none";
+        }
+    }
+</script>
+<footer>
+    <div class="footer">
+        <p>Email: ngonhanit@gmail.com</p>
+        <a href="https://www.facebook.com/ngohiennhan/">Facebook: https://www.facebook.com/ngohiennhan</a>
+    </div>
+</footer>
+</body>
+</html>
