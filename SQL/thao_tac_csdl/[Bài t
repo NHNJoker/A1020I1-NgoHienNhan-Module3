@@ -1,0 +1,83 @@
+drop database if exists database_library;
+
+create database database_library;
+
+use database_library;
+
+create table student(
+student_id varchar(15) primary key,
+student_name varchar(50),
+phone varchar(10),
+email varchar(45),
+image binary
+);
+
+create table category(
+category_id varchar(15) primary key,
+`name` varchar(45)
+);
+
+create table borrow_order(
+borrow_oder_id varchar(15) primary key,
+date_order date,
+date_to_pay_back date,
+student_id varchar(15),
+foreign key (student_id) references student (student_id)
+);
+
+create table book(
+book_id varchar(15) primary key,
+book_name varchar(50),
+publisher varchar(50),
+author varchar(50),
+publising_year year,
+num_of_publiscations int,
+price int,
+img_book binary,
+category_id varchar(15),
+foreign key (category_id) references category(category_id)
+);
+
+create table detail_book_borrow_order(
+book_id varchar(15),
+borrow_order_id varchar(15),
+primary key (book_id, borrow_order_id),
+foreign key (borrow_order_id) references borrow_order(borrow_oder_id),
+foreign key (book_id) references book(book_id)
+);
+
+insert into student
+	values('S001','nhan','0916309250','nhan@gmail.com','1'),
+	('S002','duyen','0916309250','nhan@gmail.com','1'),
+	('S003','dung','0916309250','nhan@gmail.com','1'),
+	('S004','hien','0916309250','nhan@gmail.com','1'),
+	('S005','ha','0916309250','nhan@gmail.com','1');
+    
+    insert into category
+    values('1','van hoc'),
+    ('2','truyen cuoi'),
+    ('3','toan hoc');
+    
+insert into book
+    values('B001','sach1','Nxb1','tac gia 1','1999','2','123','1','2'),
+    ('B002','sach2','Nxb1','tac gia 2','1999','2','123','1','2'),
+    ('B003','sach3','Nxb2','tac gia 4','2000','2','123','1','3'),
+    ('B004','sach4','Nxb3','tac gia 5','1978','2','123','1','1'),
+    ('B005','sach5','Nxb4','tac gia 6','2012','2','123','1','3');
+    
+    
+insert into borrow_order
+	values('O01','2021-03-11','2021-04-11','S001'),
+    ('O02','2021-03-11','2021-04-11','S004'),
+    ('O03','2021-03-11','2021-04-11','S003'),
+    ('O04','2021-03-11','2021-04-11','S005');
+    
+insert into detail_book_borrow_order
+values('B002','O02'),
+('B003','O01'),
+('B002','O03'),
+('B004','O04');
+
+select *
+from student s
+inner join borrow_order b on s.student_id = b.student_id;
