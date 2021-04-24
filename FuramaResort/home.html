@@ -13,7 +13,7 @@
     <div class="main">
         <!--logo start -->
         <div class="logo">
-            <img src="icon/logo (1).png" height="auto" width="50px"/>
+            <img src="icon/logo (1).png" height="auto" width="45px"/>
         </div>
         <!--logo end-->
         <!--button login start-->
@@ -22,57 +22,54 @@
         </div>
         <!--  button login end      -->
 
-
         <!--banner menu start-->
         <nav class="nav">
             <ul>
-                <li><a href="home.html" onclick="home()"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" onclick=""><i class="fas fa-home"></i> Home</a></li>
                 <li class="dropDown"><a href="#" class="dropBtn">Employee</a>
                     <div class="dropdownContent">
                         <ul>
-                            <li><a href="action.html" onclick="">Add new employee</a></li>
-                            <li><a href="action.html" onclick="">Display employee</a></li>
+                            <li><a href="#" onclick="addNewEmployee()">Add new employee</a></li>
+                            <li><a href="#" onclick="">Display employee</a></li>
                         </ul>
                     </div>
                 </li>
-                <li class="dropDown"><a href="action.html" onclick="" class="dropBtn">Customer</a>
+                <li class="dropDown"><a href="#" onclick="" class="dropBtn">Customer</a>
                     <div class="dropdownContent">
                         <ul>
-                            <li><a href="action.html" onclick="">Add new customer</a></li>
-                            <li><a href="action.html" onclick="">Display customer</a></li>
+                            <li><a href="#" onclick="">Add new customer</a></li>
+                            <li><a href="#" onclick="">Display customer</a></li>
                         </ul>
                     </div>
                 </li>
-                <li class="dropDown"><a href="action.html" onclick="" class="dropBtn">Service</a>
+                <li class="dropDown"><a href="#" onclick="" class="dropBtn">Service</a>
                     <div class="dropdownContent">
                         <ul>
-                            <li><a href="action.html" onclick="">Add new service</a></li>
-                            <li><a href="action.html" onclick="">Display service</a></li>
+                            <li><a href="#" onclick="">Add new service</a></li>
+                            <li><a href="#" onclick="">Display service</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="dropDown"><a href="#" onclick="" class="dropBtn">Contract</a>
                     <div class="dropdownContent">
                         <ul>
-                            <li><a href="action.html" onclick="">Add new contract</a></li>
-                            <li><a href="action.html" onclick="">add new contract detail</a></li>
+                            <li><a href="#" onclick="">Add new contract</a></li>
+                            <li><a href="#" onclick="">add new contract detail</a></li>
                         </ul>
-                    </div>
-                </li>
-                <li>
-                    <div class="box">
-                        <div class="formSearch">
-                            <input type="text" id="search" placeholder="Search..."/>
-                            <button type="submit" class="btnSearch"><span class="icon"><i
-                                    class="fa fa-search"></i></span></button>
-                        </div>
                     </div>
                 </li>
             </ul>
         </nav>
-        <hr width="100%" color="white" class="line"/>
-        <!--banner menu end        -->
+        <div class="box">
+            <div class="formSearch">
+                <input type="text" id="search" placeholder="Search..."/>
+                <button type="submit" class="btnSearch"><span class="icon"><i
+                        class="fa fa-search"></i></span></button>
+            </div>
+        </div>
+        <hr class="line"/>
     </div>
+    <!--banner menu end        -->
 </header>
 <!--    tile welcome start-->
 <div class="title">
@@ -156,6 +153,8 @@
         <a href="#"><i class="fab fa-twitter-square"></i></a>
     </div>
 </div>
+<!--display-->
+<p id="show"> </p>
 <!-- login wrapper end        -->
 <script type="text/javascript">
     let wrapper = document.getElementById("myWrapper");

@@ -93,7 +93,7 @@ ngay_lam_hop_dong date,
 ngay_ket_thuc date,
 tien_dat_coc int,
 tong_tien int,
-foreign key (id_nhan_vien) references nhan_vien(id_nhan_vien),
+foreign key (id_nhan_vien) references nhan_vien(id_nhan_vien) on delete cascade,
 foreign key (id_khach_hang) references khach_hang(id_khach_hang),
 foreign key (id_dich_vu) references dich_vu(id_dich_vu)
 );
@@ -103,7 +103,7 @@ id_hop_dong_chi_tiet int primary key,
 id_hop_dong int,
 id_dich_vu_di_kem int,
 so_luong int,
-foreign key (id_hop_dong) references hop_dong(id_hop_dong),
+foreign key (id_hop_dong) references hop_dong(id_hop_dong) on delete cascade,
 foreign key (id_dich_vu_di_kem) references dich_vu_di_kem(id_dich_vu_di_kem)
 );
 
@@ -455,11 +455,34 @@ from dich_vu_di_kem
 
 delete from nhan_vien
 where id_nhan_vien not in (
- select nhan_vien.id_nhan_vien
+ select hop_dong.id_nhan_vien
  from hop_dong
- where id_nhan_vien is not null and (year(hop_dong.ngay_lam_hop_dong)>=2017 and year(hop_dong.ngay_lam_hop_dong)<=2019 and nhan_vien.id_nhan_vien <> hop_dong.id_nhan_vien)
+ where id_nhan_vien is not null and (year(hop_dong.ngay_lam_hop_dong)>=2017 and year(hop_dong.ngay_lam_hop_dong)<=2019)
  group by hop_dong.id_nhan_vien);
 
 -- 17.	Cập nhật thông tin những khách hàng có TenLoaiKhachHang từ  Platinium lên Diamond, chỉ cập nhật những khách hàng
 -- đã từng đặt phòng với tổng Tiền thanh toán trong năm 2019 là lớn hơn 10.000.000 VNĐ.
 
+update khach_hang , (select hop_dong.id_khach_hang as id, sum(hop_dong.tong_tien) as tong_tien from hop_dong
+where year(hop_dong.ngay_lam_hop_dong) = 2019
+group by hop_dong.id_khach_hang
+having tong_tien >= 10000) as temp
+set khach_hang.id_loai_khach = (select loai_khach.id_loai_khach from loai_khach where loai_khach.ten_loai_khach = "Diamond")
+where khach_hang.id_loai_khach = (select loai_khach.id_loai_khach from loai_khach where loai_khach.ten_loai_khach = "Platinium")
+and temp.id = khach_hang.id_khach_hang;
+
+-- 18.	Xóa những khách hàng có hợp đồng trước năm 2016 (chú ý ràng buộc giữa các bảng).
+
+delete from hop_dong
+where year(hop_dong.ngay_lam_hop_dong)>2016;
+
+-- 19.	Cập nhật giá cho các Dịch vụ đi kèm được sử dụng trên 10 lần trong năm 2019 lên gấp đôi
+
+update dich_vu_di_kem , (select hop_dong_chi_tiet.id_dich_vu_di_kem as id, count(hop_dong_chi_tiet.id_dich_vu_di_kem) as so_lan from hop_dong_chi_tiet
+group by hop_dong_chi_tiet.id_dich_vu_di_kem
+having so_lan>10)as temp
+set dich_vu_di_kem.gia_tien = dich_vu_di_kem.gia_tien*2
+where temp.id = dich_vu_di_kem.id_dich_vu_di_kem;
+
+-- 20.	Hiển thị thông tin của tất cả các Nhân viên và Khách hàng có trong hệ thống,
+-- thông tin hiển thị bao gồm ID (IDNhanVien, IDKhachHang), HoTen, Email, SoDienThoai, NgaySinh, DiaChi.

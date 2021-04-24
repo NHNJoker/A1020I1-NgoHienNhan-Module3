@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Tạo layout với các thẻ HTML5 và CSS</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .col-1 {width: 8.33%;}
+        .col-2 {width: 16.66%;}
+        .col-3 {width: 25%;}
+        .col-4 {width: 33.33%;}
+        .col-5 {width: 41.66%;}
+        .col-6 {width: 50%;}
+        .col-7 {width: 58.33%;}
+        .col-8 {width: 66.66%;}
+        .col-9 {width: 75%;}
+        .col-10 {width: 83.33%;}
+        .col-11 {width: 91.66%;}
+        .col-12 {width: 100%;}
+
+        [class*="col-"] {
+            float: left;
+            padding: 10px;
+        }
+
+        .header{
+            background-color: blue;
+            color: white;
+        }
+
+        .banner{
+            background-color: aqua;
+            text-align: center;
+        }
+
+        .banner ul li{
+            display: inline-block;
+            margin: 0 5% ;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="col-12 header">
+            <h1>Header</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <nav class="col-12 banner">
+            <ul>
+                <li>
+                    <a href="#">nav1</a>
+                </li>
+                <li>
+                    <a href="#">nav2</a>
+                </li>
+                <li>
+                    <a href="#">nav3</a>
+                </li>
+                <li>
+                    <a href="#">nav4</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <div class="col-12">
+                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in porta lorem. Morbi condimentum est nibh, et consectetur tortor feugiat at.</p>
+                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in porta lorem. Morbi condimentum est nibh, et consectetur tortor feugiat at.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in porta lorem. Morbi condimentum est nibh, et consectetur tortor feugiat at.</p>
+                    <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in porta lorem. Morbi condimentum est nibh, et consectetur tortor feugiat at.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in porta lorem. Morbi condimentum est nibh, et consectetur tortor feugiat at.</p>
+            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque in porta lorem. Morbi condimentum est nibh, et consectetur tortor feugiat at.</p>
+        </div>
+    </div>
+    <footer class="col-12">
+        <p>&copy; 2014 Monday Times. All rights reserved.</p>
+    </footer>
+</body>
+</html>

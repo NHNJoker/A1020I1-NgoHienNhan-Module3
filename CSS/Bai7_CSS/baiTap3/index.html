@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Tạo layout với RWD</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+          integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .col-1 {
+            width: 8.33%;
+        }
+
+        .col-2 {
+            width: 16.66%;
+        }
+
+        .col-3 {
+            width: 25%;
+        }
+
+        .col-4 {
+            width: 33.33%;
+        }
+
+        .col-5 {
+            width: 41.66%;
+        }
+
+        .col-6 {
+            width: 50%;
+        }
+
+        .col-7 {
+            width: 58.33%;
+        }
+
+        .col-8 {
+            width: 66.66%;
+        }
+
+        .col-9 {
+            width: 75%;
+        }
+
+        .col-10 {
+            width: 83.33%;
+        }
+
+        .col-11 {
+            width: 91.66%;
+        }
+
+        .col-12 {
+            width: 100%;
+        }
+
+        [class*="col-"] {
+            float: left;
+            padding: 10px;
+        }
+
+        a{
+            text-decoration: none;
+        }
+
+        .header div{
+            background-color: #525050;
+        }
+        .header div a{
+            text-decoration: none;
+            color: white;
+        }
+
+        @media only screen and (max-width: 768px) {
+            [class*="col-"] {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="row header">
+        <div class="col-1">
+            <a href="#">LOGO</a>
+        </div>
+        <div class="col-1">
+            <a href="#">HOME</a>
+        </div>
+        <div class="col-1">
+            <a href="#">ABOUT</a>
+        </div>
+        <div class="col-1">
+            <a href="#">PROJECT</a>
+        </div>
+        <div class="col-1">
+            <a href="#">CONTRACT</a>
+        </div>
+        <div class="col-7" style="text-align: right">
+            <a href="#"><i class="fas fa-sign-in-alt"></i> LOGIN</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2" style="text-align: center ;height: 550px">
+            <div class="row">
+                <div class="col-12"><a href="#">Link</a></div>
+            </div>
+            <div class="row">
+                <div class="col-12"><a href="#">Link</a></div>
+            </div>
+            <div class="row">
+                <div class="col-12"><a href="#">Link</a></div>
+            </div>
+        </div>
+        <div class="col-8" style="text-align: justify">
+            <p>Quỹ Wikimedia có mục đích hỗ trợ hoạt động của các dự án Wikipedia, Wiktionary, Wikiquote, Wikibooks (bao gồm Wikijunior và Wikiversity), Wikisource, Wiki kỷ niệm 11/9, Wikimedia Commons, Wikispecies, Wikinews, và Nupedia (đóng cửa). Nó là tổ chức phi lợi nhuận mục đích là để cung cấp nội dung, kiến thức miễn phí cho người dân trên toàn cầu. Nó được thành lập tại St. Petersburg, Florida (Mỹ), thiết lập theo luật pháp của tiểu bang Florida. Ông Jimmy Wales, người thành lập Wikipedia và CEO của Wikia, tuyên bố thành lập Wikimedia vào ngày 20 tháng 6 năm 2003. [1]
+
+                Hiện tại cơ sở chính là ở San Francisco, California, Hoa Kỳ. Tính đến năm 2015, quỹ này có 250 nhân viên, với doanh thu hàng năm là 50 triệu USD[5]. Lila Tretikov là giám đốc điều hành quỹ, và Jan-Bart de Vreede là chủ tịch hội đồng quản trị.</p>
+        </div>
+        <div class="col-2" style="text-align: center">
+            <div class="row">
+                <button type="button" style="height: 80px; width: 90px">ADS</button>
+            </div>
+            <div class="row">
+                <button type="button" style="height: 80px; width: 90px">ADS</button>
+            </div>
+        </div>
+    </div>
+    <footer >
+        <div class="col-12" style="text-align: center; background-color: #525050">
+            <p>FOOTER</p>
+        </div>
+    </footer>
+</body>
+</html>

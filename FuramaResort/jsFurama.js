@@ -127,4 +127,5 @@ function addNewEmployee() {
         "        <a class=\"btn\" onclick=\"submit()\">Submit</a>\n" +
         "    </div>";
     document.getElementById('show').innerHTML = formEmployee;
+    document.getElementById('titleHome').style.display = 'none';
 }
