@@ -486,3 +486,29 @@ where temp.id = dich_vu_di_kem.id_dich_vu_di_kem;
 
 -- 20.	Hiển thị thông tin của tất cả các Nhân viên và Khách hàng có trong hệ thống,
 -- thông tin hiển thị bao gồm ID (IDNhanVien, IDKhachHang), HoTen, Email, SoDienThoai, NgaySinh, DiaChi.
+
+select nhan_vien.id_nhan_vien as id, nhan_vien.ho_va_ten as ho_va_ten, nhan_vien.email as email, nhan_vien.so_dien_thoai as so_dien_thoai, nhan_vien.ngay_sinh as ngay_sinh, nhan_vien.dia_chi as dia_chi
+from nhan_vien
+union all
+select khach_hang.id_khach_hang as id, khach_hang.ho_va_ten as ho_va_ten, khach_hang.email as email, khach_hang.sdt as so_dien_thoai, khach_hang.ngay_sinh as ngay_sinh, khach_hang.dia_chi as dia_chi
+from khach_hang;
+
+-- 21.	Tạo khung nhìn có tên là V_NHANVIEN để lấy được thông tin của tất cả các nhân viên có địa chỉ là “Hải Châu” và đã từng lập hợp đồng cho 1 
+-- hoặc nhiều Khách hàng bất kỳ  với ngày lập hợp đồng là “12/12/2019”
+create view V_NHANVIEN
+as
+select nv.* ,count(hd.id_hop_dong) sohopdong
+from nhan_vien nv
+	inner join hop_dong hd on hd.id_nhan_vien=nv.id_nhan_vien 
+where  hd.ngay_lam_hop_dong='2019-02-21' and nv.dia_chi='Hội An';
+
+
+select * from V_NHANVIEN;
+-- 22.	Thông qua khung nhìn V_NHANVIEN thực hiện cập nhật địa chỉ thành “Liên Chiểu” 
+-- đối với tất cả các Nhân viên được nhìn thấy bởi khung nhìn này.
+
+update nhan_vien nv
+set nv.dia_chi='Liên Chiểu'
+where nv.id_nhan_vien=(select id_nhan_vien from V_NHANVIEN);
+
+-- 23.	Tạo Store procedure Sp_1 Dùng để xóa thông tin của một Khách hàng nào đó với Id Khách hàng được truyền vào như là 1 tham số của Sp_1
