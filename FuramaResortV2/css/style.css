@@ -12,3 +12,17 @@ header,
     -o-background-size: cover;
     background-size: cover;
 }
+
+.icon-play{
+    position: absolute;
+    padding: 0;
+    bottom: 45%;
+    left: 42%;
+    color: #cccccc;
+    transition: transform .2s;
+    margin: 0 auto;
+}
+.icon-play:hover{
+    color: white;
+    transform: scale(1.3);
+}
