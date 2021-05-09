@@ -18,6 +18,5 @@
     <form action="index.jsp">
         <button type="submit">Home</button>
     </form>
-
 </body>
 </html>
