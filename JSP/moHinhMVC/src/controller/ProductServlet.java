@@ -2,7 +2,7 @@ package controller;
 
 import model.bean.Product;
 import model.service.ProductService;
-import model.service.impl.ProductServiceImppl;
+import model.service.impl.ProductServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @WebServlet(name = "ProductServlet ", urlPatterns = "/product")
 public class ProductServlet extends HttpServlet {
-    ProductService productService = new ProductServiceImppl();
+    ProductService productService = new ProductServiceImpl();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String actionUser =request.getParameter("actionUser");
