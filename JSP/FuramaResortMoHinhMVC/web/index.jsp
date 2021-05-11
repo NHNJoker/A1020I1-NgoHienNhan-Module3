@@ -56,7 +56,7 @@
             <!-- Dropdown menu -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownEmployee">
               <li><a class="dropdown-item" href="/employee?actionUser=addNewEmployee">Add new employee</a></li>
-              <li><a class="dropdown-item" href="#">Display employee</a></li>
+              <li><a class="dropdown-item" href="/employee?actionUser=displayEmployee">Display employee</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">

@@ -207,6 +207,14 @@
                     <small id="emailHelpEmployee" class="form-text text-muted">We'll never share your email with anyone else.</small>
                 </div>
                 <div class="form-group">
+                    <label for="inputAddressEmployee">Address</label>
+                    <input type="text" class="form-control" id="inputAddressEmployee" name="inputAddressEmployee">
+                </div>
+                <div class="form-group">
+                    <label for="inputSalaryEmployee">Salary</label>
+                    <input type="text" class="form-control" id="inputSalaryEmployee" name="inputSalaryEmployee">
+                </div>
+                <div class="form-group">
                     <label for="inputLevel">Academic level</label>
                     <select class="form-control form-select" id="inputLevel" name="levelEmployee">
                         <option value="Intermediate">Intermediate</option>

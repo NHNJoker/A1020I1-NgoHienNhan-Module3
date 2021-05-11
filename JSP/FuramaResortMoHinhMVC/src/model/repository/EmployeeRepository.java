@@ -2,9 +2,10 @@ package model.repository;
 
 import model.bean.Employee;
 
+import java.sql.SQLDataException;
 import java.util.List;
 
 public interface EmployeeRepository {
-    List<Employee> showAll();
-    boolean addNewEmployee(Employee employee);
+    public void addNewEmployee(Employee employee) throws SQLDataException;
+    public List<Employee> showAll();
 }

@@ -1,37 +1,30 @@
 package model.bean;
 
 public class Employee {
+    private int idEmployee;
     private String nameOfEmployee;
     private String dateOfBirth;
     private String email;
     private String id;
     private String phone;
     private String level;
+    private String address;
+    private double salary;
     private String workPosition;
     private String workingParts;
 
-    public Employee(String nameOfEmployee, String dateOfBirth, String email, String id, String phone, String level, String workPosition, String workingParts) {
+    public Employee(int idEmployee, String nameOfEmployee, String dateOfBirth, String email, String id, String phone, String level, String address, double salary, String workPosition, String workingParts) {
+        this.idEmployee = idEmployee;
         this.nameOfEmployee = nameOfEmployee;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
         this.id = id;
         this.phone = phone;
         this.level = level;
+        this.address = address;
+        this.salary = salary;
         this.workPosition = workPosition;
         this.workingParts = workingParts;
-    }
-
-    @Override
-    public String toString() {
-        return
-                nameOfEmployee + ',' +
-                        dateOfBirth + ',' +
-                        email + ',' +
-                        id +','+
-                        phone +','+
-                        level + ',' +
-                        workPosition + ',' +
-                        workingParts;
     }
 
     public String getNameOfEmployee() {
@@ -99,4 +92,27 @@ public class Employee {
         this.email = email;
     }
 
+    public int getIdEmployee() {
+        return idEmployee;
+    }
+
+    public void setIdEmployee(int idEmployee) {
+        this.idEmployee = idEmployee;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
 }
