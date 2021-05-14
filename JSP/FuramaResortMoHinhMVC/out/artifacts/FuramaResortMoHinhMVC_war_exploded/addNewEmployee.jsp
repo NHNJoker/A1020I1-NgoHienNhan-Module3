@@ -217,30 +217,30 @@
                 <div class="form-group">
                     <label for="inputLevel">Academic level</label>
                     <select class="form-control form-select" id="inputLevel" name="levelEmployee">
-                        <option value="Intermediate">Intermediate</option>
-                        <option value="College">College</option>
-                        <option value="University">University</option>
-                        <option value="Postgraduate">Postgraduate</option>
+                        <option value="1">Intermediate</option>
+                        <option value="2">College</option>
+                        <option value="3">University</option>
+                        <option value="4">Postgraduate</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="inputPosition">Position</label>
                     <select class="form-control form-select" id="inputPosition" name="positionEmployee">
-                        <option value="Receptionist">Receptionist</option>
-                        <option value="Waitress">Waitress</option>
-                        <option value="Specialist">Specialist</option>
-                        <option value="Supervisor">Supervisor</option>
-                        <option value="Manager">Manager</option>
-                        <option value="Director">Director</option>
+                        <option value="1">Receptionist</option>
+                        <option value="2">Waitress</option>
+                        <option value="3">Specialist</option>
+                        <option value="4">Supervisor</option>
+                        <option value="5">Manager</option>
+                        <option value="6">Director</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="inputWorkingPart">Working parts</label>
                     <select class="form-control form-select" id="inputWorkingPart" name="workingPartEmployee">
-                        <option value="Sale – Marketing">Sale – Marketing</option>
-                        <option value="Administration">Administration</option>
-                        <option value="Services">Services</option>
-                        <option value="Management">Management</option>
+                        <option value="1">Sale – Marketing</option>
+                        <option value="2">Administration</option>
+                        <option value="3">Services</option>
+                        <option value="4">Management</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>

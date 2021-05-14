@@ -182,8 +182,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-1"></div>
-        <div class="col-lg-10">
+        <div class="col-lg-12">
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
@@ -196,26 +195,35 @@
                         <th scope="col">Academic level</th>
                         <th scope="col">Position</th>
                         <th scope="col">Working parts</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach var="employee" items="${employeeListServlet}" varStatus="loop">
                         <tr>
-                            <th scope="row"><c:out value="${loop.index +1}"/></th>
-                            <th><c:out value="${employee.nameOfEmployee}"/></th>
-                            <th><c:out value="${employee.dateOfBirth}"/></th>
-                            <th><c:out value="${employee.id}"/></th>
-                            <th><c:out value="${employee.phone}"/></th>
-                            <th><c:out value="${employee.email}"/></th>
-                            <th><c:out value="${employee.level}"/></th>
-                            <th><c:out value="${employee.workPosition}"/></th>
-                            <th><c:out value="${employee.workingParts}"/></th>
+                            <td scope="row"><c:out value="${loop.index +1}"/></td>
+                            <td><c:out value="${employee.nameOfEmployee}"/></td>
+                            <td><c:out value="${employee.dateOfBirth}"/></td>
+                            <td><c:out value="${employee.id}"/></td>
+                            <td><c:out value="${employee.phone}"/></td>
+                            <td><c:out value="${employee.email}"/></td>
+                            <td><c:out value="${employee.level}"/></td>
+                            <td><c:out value="${employee.workPosition}"/></td>
+                            <td><c:out value="${employee.workingParts}"/></td>
+                            <td>
+<%--                                <form action="/employee?actionUser=edit&idEmployee=${employee.idEmployee}">--%>
+<%--                                    <button type="submit" class="btn btn-outline-primary">Edit</button>--%>
+<%--                                </form>--%>
+                                    <a href="/employee?actionUser=edit&idEmployee=${employee.idEmployee}">edit</a>
+                            </td>
+                            <td><button type="submit" class="btn btn-outline-primary">Delete</button></td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
         </div>
-        <div class="col-lg-1"></div>
     </div>
 </div>
 <!--Main Layout-->
