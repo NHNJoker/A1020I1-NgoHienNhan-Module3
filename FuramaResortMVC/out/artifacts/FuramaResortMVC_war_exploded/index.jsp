@@ -71,8 +71,8 @@
             </a>
             <!-- Dropdown menu -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownCus">
-              <li><a class="dropdown-item" href="#">Add new customer</a></li>
-              <li><a class="dropdown-item" href="#">Display customer</a></li>
+              <li><a class="dropdown-item" href="/customer?actionUser=addNewCustomer">Add new customer</a></li>
+              <li><a class="dropdown-item" href="/customer?actionUser=displayCustomer">Display customer</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
@@ -88,8 +88,8 @@
             </a>
             <!-- Dropdown menu -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownServices">
-              <li><a class="dropdown-item" href="#">Add new service</a></li>
-              <li><a class="dropdown-item" href="#">Display service</a></li>
+              <li><a class="dropdown-item" href="/service?actionUser=addNewService">Add new service</a></li>
+              <li><a class="dropdown-item" href="/service?actionUser=displayService&index=1">Display service</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
@@ -105,8 +105,8 @@
             </a>
             <!-- Dropdown menu -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownContract">
-              <li><a class="dropdown-item" href="#">Add new contract</a></li>
-              <li><a class="dropdown-item" href="#">Add new contract detail</a></li>
+              <li><a class="dropdown-item" href="/contract?actionUser=addNewContract">Add new contract</a></li>
+              <li><a class="dropdown-item" href="/contract?actionUser=addNewContractDetail">Add new contract detail</a></li>
             </ul>
           </li>
         </ul>

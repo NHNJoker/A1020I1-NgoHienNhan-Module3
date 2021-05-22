@@ -1,9 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Furama resort</title>
+    <link rel="stylesheet" href="bootstrap413/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="datatables/css/dataTables.bootstrap4.min.css" />
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/mdb.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -13,7 +15,6 @@
 <body>
 <!-- Navbar -->
 <nav id="bg-nav" class="navbar navbar-expand-lg navbar-light bg-light">
-    <!-- Container wrapper -->
     <div class="container-fluid">
         <!-- Navbar brand -->
         <a class="navbar-brand" href="/">
@@ -32,6 +33,7 @@
         >
             <i class="fas fa-bars"></i>
         </button>
+
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left links -->
@@ -53,8 +55,10 @@
                     </a>
                     <!-- Dropdown menu -->
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownEmployee">
-                        <li><a class="dropdown-item" href="#">Add new employee</a></li>
-                        <li><a class="dropdown-item" href="#">Display employee</a></li>
+                        <li><a class="dropdown-item" href="/employee?actionUser=addNewEmployee">Add new employee</a>
+                        </li>
+                        <li><a class="dropdown-item" href="/employee?actionUser=displayEmployee">Display employee</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -70,8 +74,10 @@
                     </a>
                     <!-- Dropdown menu -->
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownCus">
-                        <li><a class="dropdown-item" href="#">Add new customer</a></li>
-                        <li><a class="dropdown-item" href="#">Display customer</a></li>
+                        <li><a class="dropdown-item" href="/customer?actionUser=addNewCustomer">Add new customer</a>
+                        </li>
+                        <li><a class="dropdown-item" href="/customer?actionUser=displayCustomer">Display customer</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -87,8 +93,8 @@
                     </a>
                     <!-- Dropdown menu -->
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownServices">
-                        <li><a class="dropdown-item" href="#">Add new service</a></li>
-                        <li><a class="dropdown-item" href="#">Display service</a></li>
+                        <li><a class="dropdown-item" href="/service?actionUser=addNewService">Add new service</a></li>
+                        <li><a class="dropdown-item" href="/service?actionUser=displayService">Display service</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -104,8 +110,10 @@
                     </a>
                     <!-- Dropdown menu -->
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownContract">
-                        <li><a class="dropdown-item" href="#">Add new contract</a></li>
-                        <li><a class="dropdown-item" href="#">Add new contract detail</a></li>
+                        <li><a class="dropdown-item" href="/contract?actionUser=addNewContract">Add new contract</a>
+                        </li>
+                        <li><a class="dropdown-item" href="/contract?actionUser=addNewContractDetail">Add new contract
+                            detail</a></li>
                     </ul>
                 </li>
             </ul>
@@ -180,56 +188,100 @@
             <h3>Display employees</h3>
         </div>
     </div>
+    <div class="row m-3">
+        <div class="text-primary col-lg-12 text-center">
+            <h5>${msg}</h5>
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12">
-            <table class="table table-striped">
+            <table  id="tableStudent" class="table table-striped table-bordered" style="width: 100%">
                 <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Index</th>
-                        <th scope="col">Full name</th>
-                        <th scope="col">Date of birth</th>
-                        <th scope="col">ID card</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Academic level</th>
-                        <th scope="col">Position</th>
-                        <th scope="col">Working parts</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+                <tr>
+                    <th scope="col">Index</th>
+                    <th scope="col">Full name</th>
+                    <th scope="col">Date of birth</th>
+                    <th scope="col">ID card</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Academic level</th>
+                    <th scope="col">Position</th>
+                    <th scope="col">Working parts</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
 
-                    </tr>
+                </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="employee" items="${employeeListServlet}" varStatus="loop">
-                        <tr>
-                            <td scope="row"><c:out value="${loop.index +1}"/></td>
-                            <td><c:out value="${employee.nameOfEmployee}"/></td>
-                            <td><c:out value="${employee.dateOfBirth}"/></td>
-                            <td><c:out value="${employee.id}"/></td>
-                            <td><c:out value="${employee.phone}"/></td>
-                            <td><c:out value="${employee.email}"/></td>
-                            <td><c:out value="${employee.level}"/></td>
-                            <td><c:out value="${employee.workPosition}"/></td>
-                            <td><c:out value="${employee.workingParts}"/></td>
-                            <td>
-<%--                                <form action="/employee?actionUser=edit&idEmployee=${employee.idEmployee}">--%>
-<%--                                    <button type="submit" class="btn btn-outline-primary">Edit</button>--%>
-<%--                                </form>--%>
-                                    <a href="/employee?actionUser=edit&idEmployee=${employee.idEmployee}">edit</a>
-                            </td>
-                            <td><button type="submit" class="btn btn-outline-primary">Delete</button></td>
-                        </tr>
-                    </c:forEach>
+                <c:forEach var="employee" items="${employeeListServlet}" varStatus="loop">
+                    <tr>
+                        <td scope="row"><c:out value="${loop.index +1}"/></td>
+                        <td><c:out value="${employee.nameOfEmployee}"/></td>
+                        <td><c:out value="${employee.dateOfBirth}"/></td>
+                        <td><c:out value="${employee.id}"/></td>
+                        <td><c:out value="${employee.phone}"/></td>
+                        <td><c:out value="${employee.email}"/></td>
+                        <td><c:out value="${employee.level}"/></td>
+                        <td><c:out value="${employee.workPosition}"/></td>
+                        <td><c:out value="${employee.workingParts}"/></td>
+                        <td>
+                            <a href="/employee?actionUser=edit&idEmployee=${employee.idEmployee}">
+                                <button type="submit" class="btn btn-outline-primary">edit</button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/employee?actionUser=delete&idEmployee=${employee.idEmployee}">
+                                <button type="submit" class="btn btn-outline-primary">Delete</button>
+                            </a>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 <!--Main Layout-->
+<div class="container-fluid mt-lg-5" style="background-color: #8e8b8b">
+    <div class="row">
+        <div class="col-lg-4">
+            <h3 class="text-white mt-lg-5">BẢN ĐỒ</h3>
+            <iframe class="w-100 h-75" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.50245898014!2d108.24769741416945!3d16.039395344498725!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31420fdbc8cc38ef%3A0x9a6a3e31121225d2!2sFurama%20Resort%20Danang!5e0!3m2!1svi!2s!4v1619427748449!5m2!1svi!2s" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <h3 class="text-white mt-lg-5">Liên hệ</h3>
+            <p>105 Võ Nguyên Giáp, Ngũ Hành Sơn, Đà Nẵng, Việt Nam</p>
+            <p>Tel.: 84-236-3847 333/888 * Fax: 84-236-3847 666</p>
+            <p>Email: reservation@furamavietnam.com * www.furamavietnam.com</p>
+            <img src="img/world-hotel-F-new.png" class="w-100"/>
+            <p>GDS-Codes: Amadeus-WWDADFUR, Apollo/Galileo-WW16236, SabreWW32771, Worldspan-WWDADFU</p>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-lg-12">
+            <p>© 2018 Furama Resort Danang.</p>
+        </div>
+    </div>
+</div>
+
 <!--js-->
 <script src="js/jquery-3.6.0.min.js "></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/mdb.min.js"></script>
+<script src="jquery/jquery-3.5.1.min.js"></script>
+<script src="datatables/js/jquery.dataTables.min.js"></script>
+<script src="datatables/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#tableEmployee').dataTable( {
+            "dom": 'lrtip',
+            "lengthChange": false,
+            "pageLength": 5
+        } );
+    } );
+</script>
 <!--js-->
 </body>
 </html>

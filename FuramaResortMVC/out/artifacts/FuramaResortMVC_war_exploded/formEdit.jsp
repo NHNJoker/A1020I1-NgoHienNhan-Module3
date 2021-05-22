@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,6 +32,7 @@
         >
             <i class="fas fa-bars"></i>
         </button>
+
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left links -->
@@ -53,8 +54,10 @@
                     </a>
                     <!-- Dropdown menu -->
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownEmployee">
-                        <li><a class="dropdown-item" href="#">Add new employee</a></li>
-                        <li><a class="dropdown-item" href="#">Display employee</a></li>
+                        <li><a class="dropdown-item" href="/employee?actionUser=addNewEmployee">Add new employee</a>
+                        </li>
+                        <li><a class="dropdown-item" href="/employee?actionUser=displayEmployee">Display employee</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -70,8 +73,10 @@
                     </a>
                     <!-- Dropdown menu -->
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownCus">
-                        <li><a class="dropdown-item" href="#">Add new customer</a></li>
-                        <li><a class="dropdown-item" href="#">Display customer</a></li>
+                        <li><a class="dropdown-item" href="/customer?actionUser=addNewCustomer">Add new customer</a>
+                        </li>
+                        <li><a class="dropdown-item" href=/customer?actionUser=displayCustomer">Display customer</a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -87,8 +92,8 @@
                     </a>
                     <!-- Dropdown menu -->
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownServices">
-                        <li><a class="dropdown-item" href="#">Add new service</a></li>
-                        <li><a class="dropdown-item" href="#">Display service</a></li>
+                        <li><a class="dropdown-item" href="/service?actionUser=addNewService">Add new service</a></li>
+                        <li><a class="dropdown-item" href="/service?actionUser=displayService">Display service</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -104,8 +109,10 @@
                     </a>
                     <!-- Dropdown menu -->
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownContract">
-                        <li><a class="dropdown-item" href="#">Add new contract</a></li>
-                        <li><a class="dropdown-item" href="#">Add new contract detail</a></li>
+                        <li><a class="dropdown-item" href="/contract?actionUser=addNewContract">Add new contract</a>
+                        </li>
+                        <li><a class="dropdown-item" href="/contract?actionUser=addNewContractDetail">Add new contract
+                            detail</a></li>
                     </ul>
                 </li>
             </ul>
@@ -177,70 +184,98 @@
 <div class="container-fluid">
     <div class="row m-3">
         <div class="col-lg-12 text-center">
-            <h3>Add new employees</h3>
+            <h3>Edit employee</h3>
             <p class="text-black">Please enter the information below.</p>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
-            <form action="/employee?actionUser=addNewEmployee" method="post">
+            <form action="/employee?actionUser=edit" method="post">
+                <input style="display: none;" type="text" name="id" value="${employeeServlet.idEmployee}">
                 <div class="form-group">
                     <label for="inputNameEmployee">Full name</label>
-                    <input value="${employeeServlet.nameOfEmployee}" type="text" class="form-control" id="inputNameEmployee" name="nameEmployee">
+                    <input value="${employeeServlet.nameOfEmployee}" type="text" class="form-control"
+                           id="inputNameEmployee" name="nameEmployee">
                 </div>
                 <div class="form-group">
                     <label for="inputDateOfBirth">Date of birth</label>
-                    <input value="${employeeServlet.dateOfBirth}" type="date" class="form-control" id="inputDateOfBirth" name="dateOfBirthEmployee">
+                    <input value="${employeeServlet.dateOfBirth}" type="date" class="form-control" id="inputDateOfBirth"
+                           name="dateOfBirthEmployee">
                 </div>
                 <div class="form-group">
                     <label for="inputID">ID card</label>
-                    <input value="${employeeServlet.id}" type="text" class="form-control" id="inputID" name="idEmployee">
+                    <input value="${employeeServlet.id}" type="text" class="form-control" id="inputID"
+                           name="idEmployee">
                 </div>
                 <div class="form-group">
                     <label for="inputPhone">Phone</label>
-                    <input value="${employeeServlet.phone}" type="text" class="form-control" id="inputPhone" name="phoneEmployee">
+                    <input value="${employeeServlet.phone}" type="text" class="form-control" id="inputPhone"
+                           name="phoneEmployee">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmailEmployee">Email address</label>
-                    <input value="${employeeServlet.email}" type="email" class="form-control" id="exampleInputEmailEmployee" aria-describedby="emailHelpEmployee" name="emailEmployee">
-                    <small id="emailHelpEmployee" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    <input value="${employeeServlet.email}" type="email" class="form-control"
+                           id="exampleInputEmailEmployee" aria-describedby="emailHelpEmployee" name="emailEmployee">
+                    <small id="emailHelpEmployee" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small>
                 </div>
                 <div class="form-group">
                     <label for="inputAddressEmployee">Address</label>
-                    <input value="${employeeServlet.address}" type="text" class="form-control" id="inputAddressEmployee" name="inputAddressEmployee">
+                    <input value="${employeeServlet.address}" type="text" class="form-control" id="inputAddressEmployee"
+                           name="inputAddressEmployee">
                 </div>
                 <div class="form-group">
                     <label for="inputSalaryEmployee">Salary</label>
-                    <input value="${employeeServlet.salary}" type="text" class="form-control" id="inputSalaryEmployee" name="inputSalaryEmployee">
+                    <input value="${employeeServlet.salary}" type="text" class="form-control" id="inputSalaryEmployee"
+                           name="inputSalaryEmployee">
                 </div>
                 <div class="form-group">
                     <label for="inputLevel">Academic level</label>
-                    <select  class="form-control form-select" id="inputLevel" name="levelEmployee">
-                        <option ${employeeServlet.level == "1" ? 'selected="selected"' : ''} value="1">Intermediate</option>
+                    <select class="form-control form-select" id="inputLevel" name="levelEmployee">
+                        <option ${employeeServlet.level == "1" ? 'selected="selected"' : ''} value="1">Intermediate
+                        </option>
                         <option ${employeeServlet.level == "2" ? 'selected="selected"' : ''} value="2">College</option>
-                        <option ${employeeServlet.level == "3" ? 'selected="selected"' : ''} value="3">University</option>
-                        <option ${employeeServlet.level == "4" ? 'selected="selected"' : ''} value="4">Postgraduate</option>
+                        <option ${employeeServlet.level == "3" ? 'selected="selected"' : ''} value="3">University
+                        </option>
+                        <option ${employeeServlet.level == "4" ? 'selected="selected"' : ''} value="4">Postgraduate
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="inputPosition">Position</label>
                     <select class="form-control form-select" id="inputPosition" name="positionEmployee">
-                        <option ${employeeServlet.workPosition == "1" ? 'selected="selected"' : ''} value="1">Receptionist</option>
-                        <option ${employeeServlet.workPosition == "2" ? 'selected="selected"' : ''} value="2">Waitress</option>
-                        <option ${employeeServlet.workPosition == "3" ? 'selected="selected"' : ''} value="3">Specialist</option>
-                        <option ${employeeServlet.workPosition == "4" ? 'selected="selected"' : ''} value="4">Supervisor</option>
-                        <option ${employeeServlet.workPosition == "5" ? 'selected="selected"' : ''} value="5">Manager</option>
-                        <option ${employeeServlet.workPosition == "6" ? 'selected="selected"' : ''} value="6">Director</option>
+                        <option ${employeeServlet.workPosition == "1" ? 'selected="selected"' : ''} value="1">
+                            Receptionist
+                        </option>
+                        <option ${employeeServlet.workPosition == "2" ? 'selected="selected"' : ''} value="2">Waitress
+                        </option>
+                        <option ${employeeServlet.workPosition == "3" ? 'selected="selected"' : ''} value="3">
+                            Specialist
+                        </option>
+                        <option ${employeeServlet.workPosition == "4" ? 'selected="selected"' : ''} value="4">
+                            Supervisor
+                        </option>
+                        <option ${employeeServlet.workPosition == "5" ? 'selected="selected"' : ''} value="5">Manager
+                        </option>
+                        <option ${employeeServlet.workPosition == "6" ? 'selected="selected"' : ''} value="6">Director
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="inputWorkingPart">Working parts</label>
                     <select class="form-control form-select" id="inputWorkingPart" name="workingPartEmployee">
-                        <option ${employeeServlet.workingParts == "1" ? 'selected="selected"' : ''} value="1">Sale – Marketing</option>
-                        <option ${employeeServlet.workingParts == "2" ? 'selected="selected"' : ''} value="2">Administration</option>
-                        <option ${employeeServlet.workingParts == "3" ? 'selected="selected"' : ''} value="3">Services</option>
-                        <option ${employeeServlet.workingParts == "4" ? 'selected="selected"' : ''} value="4">Management</option>
+                        <option ${employeeServlet.workingParts == "1" ? 'selected="selected"' : ''} value="1">Sale –
+                            Marketing
+                        </option>
+                        <option ${employeeServlet.workingParts == "2" ? 'selected="selected"' : ''} value="2">
+                            Administration
+                        </option>
+                        <option ${employeeServlet.workingParts == "3" ? 'selected="selected"' : ''} value="3">Services
+                        </option>
+                        <option ${employeeServlet.workingParts == "4" ? 'selected="selected"' : ''} value="4">
+                            Management
+                        </option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -250,6 +285,30 @@
     </div>
 </div>
 <!--Main Layout-->
+<div class="container-fluid mt-lg-5" style="background-color: #8e8b8b">
+    <div class="row">
+        <div class="col-lg-4">
+            <h3 class="text-white mt-lg-5">BẢN ĐỒ</h3>
+            <iframe class="w-100 h-75" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.50245898014!2d108.24769741416945!3d16.039395344498725!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31420fdbc8cc38ef%3A0x9a6a3e31121225d2!2sFurama%20Resort%20Danang!5e0!3m2!1svi!2s!4v1619427748449!5m2!1svi!2s" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <h3 class="text-white mt-lg-5">Liên hệ</h3>
+            <p>105 Võ Nguyên Giáp, Ngũ Hành Sơn, Đà Nẵng, Việt Nam</p>
+            <p>Tel.: 84-236-3847 333/888 * Fax: 84-236-3847 666</p>
+            <p>Email: reservation@furamavietnam.com * www.furamavietnam.com</p>
+            <img src="img/world-hotel-F-new.png" class="w-100"/>
+            <p>GDS-Codes: Amadeus-WWDADFUR, Apollo/Galileo-WW16236, SabreWW32771, Worldspan-WWDADFU</p>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col-lg-12">
+            <p>© 2018 Furama Resort Danang.</p>
+        </div>
+    </div>
+</div>
+
 <!--js-->
 <script src="js/jquery-3.6.0.min.js "></script>
 <script src="js/bootstrap.min.js"></script>
