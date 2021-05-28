@@ -16,7 +16,7 @@
     <!-- Container wrapper -->
     <div class="container-fluid">
         <!-- Navbar brand -->
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="home.jsp">
             <img src="img/logo.png" alt="">
         </a>
 
@@ -38,7 +38,7 @@
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link active" aria-current="page" href="home.jsp">Home</a>
                 </li>
                 <!-- Navbar dropdown -->
                 <li class="nav-item dropdown">
@@ -113,6 +113,8 @@
                         </li>
                         <li><a class="dropdown-item" href="/contract?actionUser=addNewContractDetail">Add new contract
                             detail</a></li>
+                        <li><a class="dropdown-item" href="/contract?actionUser=display">Display contract
+                            detail</a></li>
                     </ul>
                 </li>
             </ul>
@@ -133,49 +135,12 @@
                     <i class="fas fa-search"></i>
                 </button>
             </form>
-            <a data-toggle="modal" data-target="#exampleModal" class="nav-link" href="#" data-mdb-toggle="tooltip"
-               title="Login">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                     class="bi bi-person-circle" viewBox="0 0 16 16">
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                    <path fill-rule="evenodd"
-                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                </svg>
+            <a class="nav-link" href="/login?actionUser=logOut" data-mdb-toggle="tooltip" data-bs-placement="bottom"
+               title="Log out ${sessionScope.account.userName}">
+                Log out
             </a>
         </div>
         <!-- Collapsible wrapper -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">LOGIN</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                       aria-describedby="emailHelp">
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with
-                                    anyone else.</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1">
-                            </div>
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <!-- Container wrapper -->
 </nav>
@@ -183,124 +148,128 @@
 <!--Main Layout-->
 <div class="container-fluid">
     <div id="displayEmployee" class="row">
-        <div class="row m-3">
-            <div class="col-lg-12 text-center">
-                <h3>Choose an employee</h3>
-                <p class="text-black">Please click the 'Next' button to select that employee.</p>
+        <div class="col-xl-12">
+            <div class="row m-3">
+                <div class="col-lg-12 text-center">
+                    <h3>Choose an employee</h3>
+                    <p class="text-black">Please click the 'Next' button to select that employee.</p>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <table id="tableEmployee" class="table table-striped table-bordered" style="width: 100%">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Index</th>
-                        <th scope="col">Full name</th>
-                        <th scope="col">Date of birth</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Email</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="employee" items="${listEmployee}" varStatus="loop">
+            <div class="row">
+                <div class="col-lg-12">
+                    <table id="tableEmployee" class="table table-striped table-bordered" style="width: 100%">
+                        <thead class="thead-dark">
                         <tr>
-                            <td scope="row"><c:out value="${loop.index +1}"/></td>
-                            <td><c:out value="${employee.nameOfEmployee}"/></td>
-                            <td><c:out value="${employee.dateOfBirth}"/></td>
-                            <td><c:out value="${employee.phone}"/></td>
-                            <td><c:out value="${employee.email}"/></td>
-                            <td>
-                                <button onclick="display('employee')" class="btn btn-outline-primary" id="btnEmployee">
-                                    <input type="hidden" value="${employee.idEmployee}" id="idBtnEmployee">
-                                    Next
-                                </button>
-                            </td>
+                            <th scope="col">Index</th>
+                            <th scope="col">Full name</th>
+                            <th scope="col">Date of birth</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Email</th>
+                            <th scope="col"></th>
                         </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="employee" items="${listEmployee}" varStatus="loop">
+                            <tr>
+                                <td scope="row"><c:out value="${loop.index +1}"/></td>
+                                <td><c:out value="${employee.nameOfEmployee}"/></td>
+                                <td><c:out value="${employee.dateOfBirth}"/></td>
+                                <td><c:out value="${employee.phone}"/></td>
+                                <td><c:out value="${employee.email}"/></td>
+                                <td>
+                                    <button onclick="displayEmployee('${employee.idEmployee}')"
+                                            class="btn btn-outline-primary">
+                                        Next
+                                    </button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
     <div id="displayCus" class="row">
-        <div class="row m-3">
-            <div class="col-lg-12 text-center">
-                <h3>Choose an customer</h3>
-                <p class="text-black">Please click the 'Next' button to select that customer.</p>
+        <div class="col-xl-12">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h3>Choose an customer</h3>
+                    <p class="text-black">Please click the 'Next' button to select that customer.</p>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <table id="tableCus" class="table table-striped table-bordered" style="width: 100%">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Index</th>
-                        <th scope="col">Full name</th>
-                        <th scope="col">Date of birth</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Email</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="customer" items="${listCus}" varStatus="loop">
+            <div class="row">
+                <div class="col-lg-12">
+                    <table id="tableCus" class="table table-striped table-bordered" style="width: 100%">
+                        <thead class="thead-dark">
                         <tr>
-                            <td scope="row"><c:out value="${loop.index +1}"/></td>
-                            <td><c:out value="${customer.nameCus}"/></td>
-                            <td><c:out value="${customer.dateOfBirth}"/></td>
-                            <td><c:out value="${customer.phone}"/></td>
-                            <td><c:out value="${customer.email}"/></td>
-                            <td>
-                                <button onclick="display('customer')" class="btn btn-outline-primary" id="btnCus">
-                                    <input type="hidden" value="${customer.idCus}" id="idBtnCus">
-                                    Next
-                                </button>
-                            </td>
+                            <th scope="col">Index</th>
+                            <th scope="col">Full name</th>
+                            <th scope="col">Date of birth</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Email</th>
+                            <th scope="col"></th>
                         </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="customer" items="${listCus}" varStatus="loop">
+                            <tr>
+                                <td scope="row"><c:out value="${loop.index +1}"/></td>
+                                <td><c:out value="${customer.nameCus}"/></td>
+                                <td><c:out value="${customer.dateOfBirth}"/></td>
+                                <td><c:out value="${customer.phone}"/></td>
+                                <td><c:out value="${customer.email}"/></td>
+                                <td>
+                                    <button onclick="displayCus('${customer.idCus}')" class="btn btn-outline-primary">
+                                        Next
+                                    </button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
     <div id="displayService" class="row">
-        <div class="row m-3">
-            <div class="col-lg-12 text-center">
-                <h3>Choose an service</h3>
-                <p class="text-black">Please click the 'Next' button to select that service.</p>
+        <div class="col-xl-12">
+            <div class="row m-3">
+                <div class="col-lg-12 text-center">
+                    <h3>Choose an service</h3>
+                    <p class="text-black">Please click the 'Next' button to select that service.</p>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <table id="tableService" class="table table-striped table-bordered" style="width: 100%">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Index</th>
-                        <th scope="col">Full name</th>
-                        <th scope="col">Area used</th>
-                        <th scope="col">Rental cost</th>
-                        <th scope="col"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="service" items="${listService}" varStatus="loop">
+            <div class="row">
+                <div class="col-lg-12">
+                    <table id="tableService" class="table table-striped table-bordered" style="width: 100%">
+                        <thead class="thead-dark">
                         <tr>
-                            <td scope="row"><c:out value="${loop.index +1}"/></td>
-                            <td><c:out value="${service.name}"/></td>
-                            <td><c:out value="${service.areaUsed}"/></td>
-                            <td><c:out value="${service.rentalCosts}"/></td>
-                            <td>
-                                <button onclick="display('service')" class="btn btn-outline-primary" id="btnService">
-                                    <input type="hidden" value="${service.idService}" id="idBtnService">
-                                    <input type="hidden" value="${service.rentalCosts}" id="rentalCosts">
-                                    Next
-                                </button>
-                            </td>
+                            <th scope="col">Index</th>
+                            <th scope="col">Full name</th>
+                            <th scope="col">Area used</th>
+                            <th scope="col">Rental cost</th>
+                            <th scope="col"></th>
                         </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="service" items="${listService}" varStatus="loop">
+                            <tr>
+                                <td scope="row"><c:out value="${loop.index +1}"/></td>
+                                <td><c:out value="${service.name}"/></td>
+                                <td><c:out value="${service.areaUsed}"/></td>
+                                <td><c:out value="${service.rentalCosts}"/></td>
+                                <td>
+                                    <button onclick="displayService('${service.idService}','${service.rentalCosts}')"
+                                            class="btn btn-outline-primary" id="btnService">
+                                        Next
+                                    </button>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

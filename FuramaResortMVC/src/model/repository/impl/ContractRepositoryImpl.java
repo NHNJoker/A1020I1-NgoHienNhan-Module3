@@ -1,8 +1,6 @@
 package model.repository.impl;
 
-import model.bean.Customer;
-import model.bean.Employee;
-import model.bean.Service;
+import model.bean.*;
 import model.repository.ContractRepository;
 
 import java.sql.*;
@@ -24,6 +22,42 @@ public class ContractRepositoryImpl implements ContractRepository {
     private static final String SELECT_ALL_CUS = "select id_khach_hang, ho_va_ten, ngay_sinh, so_cmnd, sdt, email, dia_chi, loai_khach.ten_loai_khach \n" +
             "from khach_hang\n" +
             "\tleft join loai_khach on\tloai_khach.id_loai_khach = khach_hang.id_loai_khach;";
+    private static final String SELECT_CONTRACT_AND_CUS = "select hop_dong.id_hop_dong ,khach_hang.ho_va_ten as ho_va_ten, ngay_lam_hop_dong, ngay_ket_thuc, dich_vu_di_kem.ten_dich_vu as ten_dich_vu, dich_vu_di_kem.gia_tien as gia_tien,tong_tien\n" +
+            "from hop_dong\n" +
+            "\tleft join khach_hang on khach_hang.id_khach_hang = hop_dong.id_khach_hang\n" +
+            "    left join hop_dong_chi_tiet on hop_dong_chi_tiet.id_hop_dong = hop_dong.id_hop_dong\n" +
+            "    left join dich_vu_di_kem on dich_vu_di_kem.id_dich_vu_di_kem = hop_dong_chi_tiet.id_dich_vu_di_kem;";
+    private static final String INSERT_CONTRACT = "insert into hop_dong\n" +
+            "values(?,?,?,?,?,?,?,?);";
+    private static final String SELECT_ACCOMPANIED_SERVICE = "SELECT * FROM database_furama.dich_vu_di_kem;";
+    private static final String INSERT_CONTRACT_DETAIL = "insert into hop_dong_chi_tiet\n" +
+            "values(?,?,?,?);";
+    private static final String SELECT_CONTRACT_BY_ID = "select *\n" +
+            "    from hop_dong\n" +
+            "    where id_hop_dong = ?;";
+    private static final String SELECT_CONTRACT_DETAIL_BY_ID = "select*\n" +
+            "from hop_dong_chi_tiet\n" +
+            "where id_hop_dong = ?;";
+    private static final String SELECT_CONTRACT_DETAIL_EDIT_BY_ID = "select nhan_vien.ho_va_ten as ten_nhan_vien,khach_hang.ho_va_ten as ho_va_ten,dich_vu.ten_dich_vu as ten_dich_vu , ngay_lam_hop_dong, ngay_ket_thuc, dich_vu_di_kem.ten_dich_vu as ten_dich_vu_di_kem, dich_vu_di_kem.gia_tien as gia_tien,tong_tien\n" +
+            "from hop_dong\n" +
+            "\tleft join khach_hang on khach_hang.id_khach_hang = hop_dong.id_khach_hang\n" +
+            "    left join hop_dong_chi_tiet on hop_dong_chi_tiet.id_hop_dong = hop_dong.id_hop_dong\n" +
+            "    left join dich_vu_di_kem on dich_vu_di_kem.id_dich_vu_di_kem = hop_dong_chi_tiet.id_dich_vu_di_kem\n" +
+            "    left join nhan_vien on nhan_vien.id_nhan_vien = hop_dong.id_nhan_vien\n" +
+            "    left join dich_vu on dich_vu.id_dich_vu = hop_dong.id_dich_vu\n" +
+            "    where hop_dong.id_hop_dong = ?;";
+    private static final String UPDATE_CONTRACT = "update hop_dong\n" +
+            "set id_nhan_vien = ? , id_khach_hang = ? , id_dich_vu = ?, ngay_lam_hop_dong = ? , ngay_ket_thuc = ? , tien_dat_coc = ?, tong_tien = ?\n" +
+            "where id_hop_dong = ?;";
+    private static final String UPDATE_CONTRACT_DETAIL = "update hop_dong_chi_tiet\n" +
+            "set id_dich_vu_di_kem = ?,  so_luong = ?\n" +
+            "where id_hop_dong = ?;";
+    private static final String DELETE_CONTRACT = "delete\n" +
+            "from hop_dong\n" +
+            "where id_hop_dong = ?;";
+    private static final String DELETE_CONTRACT_DETAIL = "delete\n" +
+            "from hop_dong_chi_tiet\n" +
+            "where id_hop_dong = ?;";
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -39,6 +73,7 @@ public class ContractRepositoryImpl implements ContractRepository {
         }
         return connection;
     }
+
     @Override
     public List<Service> showAllService() {
         List<Service> serviceList = new ArrayList<>();
@@ -130,6 +165,219 @@ public class ContractRepositoryImpl implements ContractRepository {
         }
         return customers;
     }
+
+    @Override
+    public List<ContractDetailAndCus> showContractDetail() {
+        List<ContractDetailAndCus> contractDetailAndCuses = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CONTRACT_AND_CUS)) {
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                int idContract = rs.getInt("hop_dong.id_hop_dong");
+                String nameCus = rs.getString("ho_va_ten");
+                String startDate = rs.getString("ngay_lam_hop_dong");
+                String endDate = rs.getString("ngay_ket_thuc");
+                String nameService = rs.getString("ten_dich_vu");
+                int priceService = rs.getInt("gia_tien");
+                int total = rs.getInt("tong_tien");
+
+                contractDetailAndCuses.add(new ContractDetailAndCus(idContract, nameCus, startDate, endDate, nameService, priceService, total));
+            }
+
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return contractDetailAndCuses;
+    }
+
+    @Override
+    public void addNewContract(Contract contract) throws SQLException {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_CONTRACT)) {
+            preparedStatement.setInt(1, contract.getIdContract());
+            preparedStatement.setInt(2, contract.getIdEmployee());
+            preparedStatement.setInt(3, contract.getIdCus());
+            preparedStatement.setInt(4, contract.getIdService());
+            preparedStatement.setString(5, contract.getContractDate());
+            preparedStatement.setString(6, contract.getContractEndDate());
+            preparedStatement.setInt(7, contract.getDeposits());
+            preparedStatement.setInt(8, contract.getTotal());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException ex) {
+            printSQLException(ex);
+        }
+    }
+
+    @Override
+    public List<AccompaniedService> showAllAccompaniedService() {
+        List<AccompaniedService> accompaniedServices = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ACCOMPANIED_SERVICE)) {
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id_dich_vu_di_kem");
+                String name = rs.getString("ten_dich_vu");
+                int price = rs.getInt("gia_tien");
+
+                accompaniedServices.add(new AccompaniedService(id, name, price));
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return accompaniedServices;
+    }
+
+    @Override
+    public void addNewContractDetail(ContractDetail contractDetail) throws SQLException {
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = getConnection().prepareStatement(INSERT_CONTRACT_DETAIL)) {
+            preparedStatement.setInt(1, contractDetail.getIdContractDetail());
+            preparedStatement.setInt(2, contractDetail.getIdContract());
+            preparedStatement.setInt(3, contractDetail.getIdAccompaniedService());
+            preparedStatement.setInt(4, contractDetail.getAmount());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+    }
+
+    @Override
+    public Contract displayContractById(int idContract) {
+        Contract contract = new Contract();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CONTRACT_BY_ID)) {
+            preparedStatement.setInt(1, idContract);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id_hop_dong");
+                int idCus = rs.getInt("id_khach_hang");
+                int idEmployee = rs.getInt("id_nhan_vien");
+                int idService = rs.getInt("id_dich_vu");
+                String startDate = rs.getString("ngay_lam_hop_dong");
+                String endDate = rs.getString("ngay_ket_thuc");
+                int deposits = rs.getInt("tien_dat_coc");
+                int total = rs.getInt("tong_tien");
+
+                contract = new Contract(id, idEmployee, idCus, idService, startDate, endDate, deposits, total);
+
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return contract;
+    }
+
+    @Override
+    public ContractDetail displayContractDetailById(int idContract) {
+        ContractDetail contractDetail = null;
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CONTRACT_DETAIL_BY_ID)) {
+            preparedStatement.setInt(1, idContract);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id_hop_dong");
+                int idContractDetail = rs.getInt("id_hop_dong");
+                int idAccompaniedService = rs.getInt("id_dich_vu_di_kem");
+                int amount = rs.getInt("so_luong");
+
+                contractDetail = new ContractDetail(idContractDetail, idAccompaniedService, id, amount);
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return contractDetail;
+    }
+
+    @Override
+    public ContractDetailAndCus showContractDetailUsedServiceById(int idContract) {
+        ContractDetailAndCus contractDetailAndCus = null;
+        try (Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CONTRACT_DETAIL_EDIT_BY_ID)){
+            preparedStatement.setInt(1,idContract);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                String nameEmployee = rs.getString("ten_nhan_vien");
+                String nameCus = rs.getString("ho_va_ten");
+                String nameService = rs.getString("ten_dich_vu");
+                String startDate = rs.getString("ngay_lam_hop_dong");
+                String endDate = rs.getString("ngay_ket_thuc");
+                String nameAccompaniedService = rs.getString("ten_dich_vu_di_kem");
+                int priceAccompaniedService = rs.getInt("gia_tien");
+                int total = rs.getInt("tong_tien");
+
+                contractDetailAndCus = new ContractDetailAndCus(nameEmployee,nameService,nameCus,startDate,endDate,nameAccompaniedService,priceAccompaniedService,total);
+
+            }
+        }catch (SQLException e){
+            printSQLException(e);
+        }
+        return contractDetailAndCus;
+    }
+
+    @Override
+    public void editContract(Contract contract) {
+        try(Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CONTRACT)){
+            preparedStatement.setInt(1,contract.getIdEmployee());
+            preparedStatement.setInt(2,contract.getIdCus());
+            preparedStatement.setInt(3,contract.getIdService());
+            preparedStatement.setString(4,contract.getContractDate());
+            preparedStatement.setString(5,contract.getContractEndDate());
+            preparedStatement.setInt(6,contract.getDeposits());
+            preparedStatement.setInt(7,contract.getTotal());
+            preparedStatement.setInt(8,contract.getIdContract());
+
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            printSQLException(e);
+        }
+    }
+
+    @Override
+    public void editContractDetail(ContractDetail contractDetail) {
+        try (Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CONTRACT_DETAIL)){
+            preparedStatement.setInt(1, contractDetail.getIdAccompaniedService());
+            preparedStatement.setInt(2, contractDetail.getAmount());
+            preparedStatement.setInt(3, contractDetail.getIdContract());
+
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            printSQLException(e);
+        }
+    }
+
+    @Override
+    public void deleteContract(int idContract) {
+        try(Connection connection = getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CONTRACT)){
+            preparedStatement.setInt(1, idContract);
+
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            printSQLException(e);
+        }
+    }
+
+    @Override
+    public void deleteContractDetail(int idContract) {
+        try(Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CONTRACT_DETAIL)){
+            preparedStatement.setInt(1, idContract);
+
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            printSQLException(e);
+        }
+    }
+
 
     private void printSQLException(SQLException ex) {
         for (Throwable e : ex) {

@@ -6,13 +6,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface CustomerService {
-    void addNewCus(Customer customer) throws SQLException;
+    String addNewCus(Customer customer) throws SQLException;
 
     List<Customer> showAll();
 
+    List<Customer> search(String valueSearch);
+
     Customer showCusEdit(int id);
 
-    boolean edit(Customer customer) throws SQLException;
+    String edit(Customer customer) throws SQLException;
 
     Customer showCus(int id);
 

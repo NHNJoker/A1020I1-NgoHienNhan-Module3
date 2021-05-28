@@ -15,7 +15,7 @@
     <!-- Container wrapper -->
     <div class="container-fluid">
         <!-- Navbar brand -->
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="home.jsp">
             <img src="img/logo.png" alt="">
         </a>
 
@@ -37,7 +37,7 @@
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link active" aria-current="page" href="home.jsp">Home</a>
                 </li>
                 <!-- Navbar dropdown -->
                 <li class="nav-item dropdown">
@@ -71,7 +71,7 @@
                     <!-- Dropdown menu -->
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownCus">
                         <li><a class="dropdown-item" href="/customer?actionUser=addNewCustomer">Add new customer</a></li>
-                        <li><a class="dropdown-item" href=/customer?actionUser=displayCustomer">Display customer</a></li>
+                        <li><a class="dropdown-item" href="/customer?actionUser=displayCustomer">Display customer</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -106,6 +106,8 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownContract">
                         <li><a class="dropdown-item" href="/contract?actionUser=addNewContract">Add new contract</a></li>
                         <li><a class="dropdown-item" href="/contract?actionUser=addNewContractDetail">Add new contract detail</a></li>
+                        <li><a class="dropdown-item" href="/contract?actionUser=display">Display contract
+                            detail</a></li>
                     </ul>
                 </li>
             </ul>
@@ -126,48 +128,9 @@
                     <i class="fas fa-search"></i>
                 </button>
             </form>
-            <a data-toggle="modal" data-target="#exampleModal" class="nav-link" href="#" data-mdb-toggle="tooltip"
-               title="Login">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-                     class="bi bi-person-circle" viewBox="0 0 16 16">
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                    <path fill-rule="evenodd"
-                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                </svg>
+            <a class="nav-link" href="/login?actionUser=logOut" data-mdb-toggle="tooltip" data-bs-placement="bottom" title="Log out ${sessionScope.account.userName}">
+                Log out
             </a>
-        </div>
-        <!-- Collapsible wrapper -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">LOGIN</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                       aria-describedby="emailHelp">
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with
-                                    anyone else.</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1">
-                            </div>
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     <!-- Container wrapper -->
@@ -184,26 +147,31 @@
     <div class="row">
         <div class="col-lg-3"></div>
         <div class="col-lg-6">
-            <form action="/service?actionUser=addNewService&index=1" method="post" enctype="multipart/form-data">
+            <form action="/service?actionUser=addNewService&index=1"  method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="nameService">Full name</label>
-                    <input type="text" class="form-control" id="nameService" name="nameService">
+                    <input value="${name}" type="text" class="form-control" id="nameService" name="nameService">
+                    <label class="text-danger" for="nameService" id="msgName">${msgName}</label>
                 </div>
                 <div class="form-group">
                     <label for="areaUsed">Area used</label>
-                    <input type="text" class="form-control" id="areaUsed" name="areaUsed">
+                    <input value="${areaUsed}" type="text" class="form-control" id="areaUsed" name="areaUsed">
+                    <label class="text-danger" for="areaUsed" id="msgArea">${msgArea}</label>
                 </div>
                 <div class="form-group">
                     <label for="numberOfFloors">Number of floors</label>
-                    <input type="text" class="form-control" id="numberOfFloors" name="numberOfFloors">
+                    <input value="${numberOfFloors}" type="text" class="form-control" id="numberOfFloors" name="numberOfFloors">
+                    <label class="text-danger" for="numberOfFloors" id="msgFloor">${msgFloor}</label>
                 </div>
                 <div class="form-group">
                     <label for="maxPeople">Max people</label>
-                    <input type="text" class="form-control" id="maxPeople" name="maxPeople">
+                    <input value="${maxPeople}" type="text" class="form-control" id="maxPeople" name="maxPeople">
+                    <label class="text-danger" for="maxPeople" id="msgMaxPeople">${msgMaxPeople}</label>
                 </div>
                 <div class="form-group">
                     <label for="rentalCosts">Rental costs</label>
-                    <input type="text" class="form-control" id="rentalCosts" name="rentalCosts">
+                    <input value="${rentalCosts}" type="text" class="form-control" id="rentalCosts" name="rentalCosts">
+                    <label class="text-danger" for="rentalCosts" id="msgRentalCosts">${msgRentalCosts}</label>
                 </div>
                 <div class="form-group">
                     <label for="inputLevel">Rental type</label>
@@ -224,7 +192,8 @@
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupFile01">Upload image</label>
-                    <input type="file" accept="image/x-png,image/gif,image/jpeg" class="form-control" id="inputGroupFile01" name="linkImg">
+                    <input value="${imgFileName}" type="file" accept="image/x-png,image/gif,image/jpeg" class="form-control" id="inputGroupFile01" name="linkImg">
+                    <label class="text-danger" for="inputGroupFile01" id="msgUpload">${msgUpload}</label>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

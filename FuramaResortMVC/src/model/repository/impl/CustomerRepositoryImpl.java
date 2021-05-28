@@ -16,19 +16,25 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     private static final String SELECT_ALL_CUS = "select id_khach_hang, ho_va_ten, ngay_sinh, so_cmnd, sdt, email, dia_chi, loai_khach.ten_loai_khach \n" +
             "from khach_hang\n" +
             "\tleft join loai_khach on\tloai_khach.id_loai_khach = khach_hang.id_loai_khach;";
-    private static final String SELECT_CUS_EDIT ="select id_khach_hang, ho_va_ten, ngay_sinh, so_cmnd , sdt, email, dia_chi, id_loai_khach\n" +
+    private static final String SELECT_CUS_EDIT = "select id_khach_hang, ho_va_ten, ngay_sinh, so_cmnd , sdt, email, dia_chi, id_loai_khach\n" +
             "from khach_hang\n" +
             "where id_khach_hang = ?;";
-    private static final String UPDATE_CUS ="update khach_hang\n" +
+    private static final String UPDATE_CUS = "update khach_hang\n" +
             "set ho_va_ten = ?, ngay_sinh = ?, so_cmnd = ?, sdt = ?, email = ?, dia_chi = ?, id_loai_khach = ?\n" +
             "where id_khach_hang = ?;";
-    private static final String SELECT_CUS ="select id_khach_hang, ho_va_ten, ngay_sinh, so_cmnd, sdt, email, dia_chi, loai_khach.ten_loai_khach \n" +
+    private static final String SELECT_CUS = "select id_khach_hang, ho_va_ten, ngay_sinh, so_cmnd, sdt, email, dia_chi, loai_khach.ten_loai_khach \n" +
             "from khach_hang\n" +
-            "\tleft join loai_khach on\tloai_khach.id_loai_khach = khach_hang.id_loai_khach\n"+
+            "\tleft join loai_khach on\tloai_khach.id_loai_khach = khach_hang.id_loai_khach\n" +
             "where id_khach_hang = ?;";
-    private static final String DELETE_CUS ="delete\n" +
+    private static final String DELETE_CUS = "delete\n" +
             "from khach_hang\n" +
             "where id_khach_hang = ?;";
+    private static final String SEARCH_CUS = "select id_khach_hang, ho_va_ten, ngay_sinh, so_cmnd, sdt, email, dia_chi, loai_khach.ten_loai_khach \n" +
+            "from khach_hang\n" +
+            "\tleft join loai_khach on\tloai_khach.id_loai_khach = khach_hang.id_loai_khach\n" +
+            "    where ho_va_ten like ?\n" +
+            "    or email like ?\n" +
+            "    or dia_chi like ?;";
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -49,7 +55,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public void addNewCus(Customer customer) throws SQLException {
         System.out.println(INSERT_CUS);
 
-        try (Connection connection = getConnection() ;PreparedStatement preparedStatement = connection.prepareStatement(INSERT_CUS)) {
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(INSERT_CUS)) {
             preparedStatement.setInt(1, customer.getIdCus());
             preparedStatement.setInt(2, Integer.parseInt(customer.getTypeOfCus()));
             preparedStatement.setString(3, customer.getNameCus());
@@ -83,7 +89,38 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 String phone = rs.getString("sdt");
                 String email = rs.getString("email");
                 String address = rs.getString("dia_chi");
-                String typeCus = rs.getString("ten_loai_khach");
+                String typeCus = rs.getString("loai_khach.ten_loai_khach");
+
+                customers.add(new Customer(idCus, typeCus, name, date, idCard, phone, email, address));
+            }
+        } catch (SQLException exception) {
+            printSQLException(exception);
+        }
+        return customers;
+    }
+
+    @Override
+    public List<Customer> search(String valueSearch) {
+        List<Customer> customers = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_CUS);) {
+            preparedStatement.setString(1, "%" + valueSearch + "%");
+            preparedStatement.setString(2, "%" + valueSearch + "%");
+            preparedStatement.setString(3, "%" + valueSearch + "%");
+
+            System.out.println(preparedStatement);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int idCus = rs.getInt("id_khach_hang");
+                String name = rs.getString("ho_va_ten");
+                String date = rs.getString("ngay_sinh");
+                String idCard = rs.getString("so_cmnd");
+                String phone = rs.getString("sdt");
+                String email = rs.getString("email");
+                String address = rs.getString("dia_chi");
+                String typeCus = rs.getString("loai_khach.ten_loai_khach");
 
                 customers.add(new Customer(idCus, typeCus, name, date, idCard, phone, email, address));
             }
@@ -97,14 +134,14 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public Customer showCusEdit(int id) {
         Customer customer = null;
 
-        try(Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CUS_EDIT)) {
-            preparedStatement.setInt(1,id);
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CUS_EDIT)) {
+            preparedStatement.setInt(1, id);
             System.out.println(preparedStatement);
 
             ResultSet rs = preparedStatement.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 int idCus = rs.getInt("id_khach_hang");
                 String name = rs.getString("ho_va_ten");
                 String date = rs.getString("ngay_sinh");
@@ -114,10 +151,10 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 String address = rs.getString("dia_chi");
                 String typeCus = rs.getString("id_loai_khach");
 
-                customer = new Customer(idCus,typeCus,name,date,idCard,phone,email,address);
+                customer = new Customer(idCus, typeCus, name, date, idCard, phone, email, address);
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             printSQLException(e);
         }
         return customer;
@@ -126,7 +163,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     @Override
     public boolean edit(Customer customer) throws SQLException {
         boolean rowUpdated;
-        try(Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CUS)){
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_CUS)) {
 
             preparedStatement.setString(1, customer.getNameCus());
             preparedStatement.setString(2, customer.getDateOfBirth());
@@ -145,14 +182,14 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     @Override
     public Customer showCus(int id) {
         Customer customer = null;
-        try(Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CUS)) {
-            preparedStatement.setInt(1,id);
+        try (Connection connection = getConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CUS)) {
+            preparedStatement.setInt(1, id);
 
             System.out.println(preparedStatement);
 
             ResultSet rs = preparedStatement.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 int idCus = rs.getInt("id_khach_hang");
                 String name = rs.getString("ho_va_ten");
                 String date = rs.getString("ngay_sinh");
@@ -162,9 +199,9 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 String address = rs.getString("dia_chi");
                 String typeCus = rs.getString("ten_loai_khach");
 
-                customer = new Customer(idCus,typeCus,name,date,idCard,phone,email,address);
+                customer = new Customer(idCus, typeCus, name, date, idCard, phone, email, address);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             printSQLException(e);
         }
         return customer;

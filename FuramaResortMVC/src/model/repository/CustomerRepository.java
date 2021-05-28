@@ -10,6 +10,8 @@ public interface CustomerRepository {
 
     List<Customer> showAll();
 
+    List<Customer> search(String valueSearch);
+
     Customer showCusEdit(int id);
 
     boolean edit(Customer customer) throws SQLException;

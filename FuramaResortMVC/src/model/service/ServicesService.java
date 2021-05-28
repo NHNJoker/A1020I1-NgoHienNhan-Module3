@@ -8,13 +8,17 @@ import java.util.List;
 public interface ServicesService {
     List<Service> displayPagination(int index);
 
+    List<Service> displayPaginationBySearch(String valueSearch,int index);
+
     List<Service> showAll();
 
-    void addNewService(Service service)throws SQLException;
+    List<Service> search(String valueSearch);
+
+    String addNewService(Service service)throws SQLException;
 
     Service showServiceByID(int id);
 
     boolean deleteService(int id)throws SQLException;
 
-    boolean editService(Service service)throws SQLException;
+    String editService(Service service)throws SQLException;
 }

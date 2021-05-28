@@ -26,45 +26,16 @@ public class EmployeeServlet extends HttpServlet {
             actionUser = "";
         }
         try {
-            if (actionUser.equals("addNewEmployee")) {
-                String name = request.getParameter("nameEmployee");
-                String date = request.getParameter("dateOfBirthEmployee");
-                String id = request.getParameter("idEmployee");
-                String phone = request.getParameter("phoneEmployee");
-                String email = request.getParameter("emailEmployee");
-                String level = request.getParameter("levelEmployee");
-                String position = request.getParameter("positionEmployee");
-                String workingParts = request.getParameter("workingPartEmployee");
-                String address = request.getParameter("inputAddressEmployee");
-                int salary = Integer.parseInt(request.getParameter("inputSalaryEmployee"));
-                int idEmployee = (int) (Math.random() * 10000);
-
-                Employee employee = new Employee(idEmployee, name, date, email, id, phone, level, address, salary, position, workingParts);
-
-                this.employeeService.addNewEmployee(employee);
-                request.setAttribute("msg","successfully added new");
-                request.setAttribute("employeeListServlet", this.employeeService.showAll());
-                request.getRequestDispatcher("displayEmployee.jsp").forward(request, response);
-            } else if (actionUser.equals("edit")) {
-                String name = request.getParameter("nameEmployee");
-                String date = request.getParameter("dateOfBirthEmployee");
-                String id = request.getParameter("idEmployee");
-                String phone = request.getParameter("phoneEmployee");
-                String email = request.getParameter("emailEmployee");
-                String level = request.getParameter("levelEmployee");
-                String position = request.getParameter("positionEmployee");
-                String workingParts = request.getParameter("workingPartEmployee");
-                String address = request.getParameter("inputAddressEmployee");
-                int salary = Integer.parseInt(request.getParameter("inputSalaryEmployee"));
-                int idEmployee = Integer.parseInt(request.getParameter("id"));
-
-                Employee employee = new Employee(idEmployee, name, date, email, id, phone, level, address, salary, position, workingParts);
-                List<Employee> employeeList = new ArrayList<>();
-                employeeList.add(this.employeeService.showEmployeeEdit(idEmployee));
-                this.employeeService.edit(employee);
-                request.setAttribute("msg","Update successful");
-                request.setAttribute("employeeListServlet", employeeList);
-                request.getRequestDispatcher("displayEmployee.jsp").forward(request, response);
+            switch (actionUser) {
+                case "addNewEmployee":
+                    addNewEmployeePost(request, response);
+                    break;
+                case "edit":
+                    editEmployeePost(request, response);
+                    break;
+                case "search":
+                    searchEmployee(request, response);
+                    break;
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
@@ -80,30 +51,140 @@ public class EmployeeServlet extends HttpServlet {
         try {
             switch (actionUser) {
                 case "addNewEmployee":
-                    response.sendRedirect("addNewEmployee.jsp");
+                    addNewEmployeeGet(response);
                     break;
                 case "displayEmployee":
-                    request.setAttribute("employeeListServlet", this.employeeService.showAll());
-                    request.getRequestDispatcher("displayEmployee.jsp").forward(request, response);
+                    displayEmployeeGet(request, response);
                     break;
                 case "edit": {
-                    int id = Integer.parseInt(request.getParameter("idEmployee"));
-
-                    request.setAttribute("employeeServlet", this.employeeService.showEmployee(id));
-                    request.getRequestDispatcher("formEdit.jsp").forward(request, response);
+                    editEmployeeGet(request, response);
                     break;
                 }
                 case "delete": {
-                    int id = Integer.parseInt(request.getParameter("idEmployee"));
-                    this.employeeService.delete(id);
-                    List<Employee> employees = this.employeeService.showAll();
-                    request.setAttribute("employeeListServlet", employees);
-                    request.getRequestDispatcher("displayEmployee.jsp").forward(request, response);
+                    deleteEmployeeGet(request, response);
                     break;
                 }
             }
-        }catch (SQLException ex) {
+        } catch (SQLException ex) {
             throw new ServletException(ex);
         }
+    }
+
+    protected void searchEmployee(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String search = request.getParameter("search");
+        request.setAttribute("employeeListServlet", this.employeeService.search(search));
+        request.getRequestDispatcher("displayEmployee.jsp").forward(request, response);
+    }
+
+    protected void addNewEmployeePost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        String name = request.getParameter("nameEmployee");
+        String date = request.getParameter("dateOfBirthEmployee");
+        String id = request.getParameter("idEmployee");
+        String phone = request.getParameter("phoneEmployee");
+        String email = request.getParameter("emailEmployee");
+        String level = request.getParameter("levelEmployee");
+        String position = request.getParameter("positionEmployee");
+        String workingParts = request.getParameter("workingPartEmployee");
+        String address = request.getParameter("inputAddressEmployee");
+        int salary = 0;
+        if (!request.getParameter("inputSalaryEmployee").equals("")) {
+            salary = Integer.parseInt(request.getParameter("inputSalaryEmployee"));
+        }
+        int idEmployee = (int) (Math.random() * 10000);
+        Employee employee = new Employee(idEmployee, name, date, email, id, phone, level, address, salary, position, workingParts);
+
+        if (this.employeeService.addNewEmployee(employee).equals("")) {
+            request.setAttribute("msg", "successfully added new");
+            request.setAttribute("employeeListServlet", this.employeeService.showAll());
+            request.getRequestDispatcher("displayEmployee.jsp").forward(request, response);
+        } else {
+            String[] msg = this.employeeService.addNewEmployee(employee).split("-");
+
+            request.setAttribute("name", name);
+            request.setAttribute("date", date);
+            request.setAttribute("idCard", id);
+            request.setAttribute("phone", phone);
+            request.setAttribute("email", email);
+            request.setAttribute("address", address);
+            request.setAttribute("salary", salary);
+
+            request.setAttribute("msgName", msg[0]);
+            request.setAttribute("msgDate", msg[1]);
+            request.setAttribute("msgID", msg[2]);
+            request.setAttribute("msgPhone", msg[3]);
+            request.setAttribute("msgEmail", msg[4]);
+            request.setAttribute("msgAddress", msg[5]);
+            request.setAttribute("msgSalary", msg[6]);
+
+            request.getRequestDispatcher("addNewEmployee.jsp").forward(request, response);
+        }
+    }
+
+    protected void editEmployeePost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        String name = request.getParameter("nameEmployee");
+        String date = request.getParameter("dateOfBirthEmployee");
+        String id = request.getParameter("idEmployee");
+        String phone = request.getParameter("phoneEmployee");
+        String email = request.getParameter("emailEmployee");
+        String level = request.getParameter("levelEmployee");
+        String position = request.getParameter("positionEmployee");
+        String workingParts = request.getParameter("workingPartEmployee");
+        String address = request.getParameter("inputAddressEmployee");
+        int salary = Integer.parseInt(request.getParameter("inputSalaryEmployee"));
+        int idEmployee = Integer.parseInt(request.getParameter("id"));
+
+        Employee employee = new Employee(idEmployee, name, date, email, id, phone, level, address, salary, position, workingParts);
+
+        if (this.employeeService.edit(employee).equals("")) {
+            List<Employee> employeeList = new ArrayList<>();
+            employeeList.add(this.employeeService.showEmployeeEdit(idEmployee));
+            request.setAttribute("msg", "Update successful");
+            request.setAttribute("employeeListServlet", employeeList);
+            request.getRequestDispatcher("displayEmployee.jsp").forward(request, response);
+        } else {
+            String[] msg = this.employeeService.edit(employee).split("-");
+
+            request.setAttribute("name", name);
+            request.setAttribute("date", date);
+            request.setAttribute("idCard", id);
+            request.setAttribute("phone", phone);
+            request.setAttribute("email", email);
+            request.setAttribute("address", address);
+            request.setAttribute("salary", salary);
+
+            request.setAttribute("msgName", msg[0]);
+            request.setAttribute("msgDate", msg[1]);
+            request.setAttribute("msgID", msg[2]);
+            request.setAttribute("msgPhone", msg[3]);
+            request.setAttribute("msgEmail", msg[4]);
+            request.setAttribute("msgAddress", msg[5]);
+            request.setAttribute("msgSalary", msg[6]);
+
+            request.getRequestDispatcher("formEdit.jsp").forward(request, response);
+        }
+    }
+
+    protected void addNewEmployeeGet(HttpServletResponse response) throws IOException {
+        response.sendRedirect("addNewEmployee.jsp");
+    }
+
+    protected void editEmployeeGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("idEmployee"));
+
+        request.setAttribute("employeeServlet", this.employeeService.showEmployee(id));
+        request.getRequestDispatcher("formEdit.jsp").forward(request, response);
+    }
+
+    protected void displayEmployeeGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("employeeListServlet", this.employeeService.showAll());
+        request.getRequestDispatcher("displayEmployee.jsp").forward(request, response);
+    }
+
+    protected void deleteEmployeeGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        int id = Integer.parseInt(request.getParameter("idEmployee"));
+        this.employeeService.delete(id);
+        List<Employee> employees = this.employeeService.showAll();
+        request.setAttribute("employeeListServlet", employees);
+        request.getRequestDispatcher("displayEmployee.jsp").forward(request, response);
     }
 }

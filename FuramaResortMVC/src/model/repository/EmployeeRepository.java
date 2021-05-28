@@ -10,6 +10,8 @@ public interface EmployeeRepository {
 
     List<Employee> showAll();
 
+    List<Employee> search(String valueSearch);
+
     Employee showEmployee(int id);
 
     boolean edit(Employee employee) throws SQLException;

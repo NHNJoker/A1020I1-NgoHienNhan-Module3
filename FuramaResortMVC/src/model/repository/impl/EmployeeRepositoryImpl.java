@@ -36,6 +36,14 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
             "    left join trinh_do on trinh_do.id_trinh_do = nhan_vien.id_trinh_do\n"+
             "    where id_nhan_vien = ? ;";
     private static final String DELETE_EMPLOYEE = "delete from nhan_vien where id_nhan_vien = ?;";
+    private static final String SEARCH_EMPLOYEE = "select ho_va_ten, ngay_sinh, so_cmnd, so_dien_thoai, email, ten_trinh_do, ten_vi_tri, ten_bo_phan, dia_chi, luong, id_nhan_vien\n" +
+            "\t\tfrom nhan_vien \n" +
+            "\t\tleft join vi_tri on vi_tri.id_vi_tri = nhan_vien.id_vi_tri\n" +
+            "\t\tleft join bo_phan on bo_phan.id_bo_phan = nhan_vien.id_bo_phan\n" +
+            "\t\tleft join trinh_do on trinh_do.id_trinh_do = nhan_vien.id_trinh_do\n" +
+            "\t\twhere ho_va_ten like ? \n" +
+            "\t\tor email like ? \n" +
+            "\t\tor dia_chi like ?;";
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -78,18 +86,41 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public List<Employee> showAll() {
-        // using try-with-resources to avoid closing resources (boiler plate code)
         List<Employee> employees = new ArrayList<>();
-        // Step 1: Establishing a Connection
         try (Connection connection = getConnection();
-
-             // Step 2:Create a statement using connection object
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_EMPLOYEE);) {
             System.out.println(preparedStatement);
-            // Step 3: Execute the query or update query
             ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("ho_va_ten");
+                String date = rs.getString("ngay_sinh");
+                String id = rs.getString("so_cmnd");
+                String phone = rs.getString("so_dien_thoai");
+                String email = rs.getString("email");
+                String level = rs.getString("trinh_do.ten_trinh_do");
+                String position = rs.getString("vi_tri.ten_vi_tri");
+                String workingParts = rs.getString("bo_phan.ten_bo_phan");
+                String address = rs.getString("dia_chi");
+                int salary = rs.getInt("luong");
+                int idEmployee = rs.getInt("id_nhan_vien");
+                employees.add(new Employee(idEmployee, name, date, email, id, phone, level, address, salary, position, workingParts));
+            }
+        } catch (SQLException e) {
+            printSQLException(e);
+        }
+        return employees;
+    }
 
-            // Step 4: Process the ResultSet object.
+    @Override
+    public List<Employee> search(String valueSearch) {
+        List<Employee> employees = new ArrayList<>();
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_EMPLOYEE);) {
+            preparedStatement.setString(1,"%"+valueSearch+"%");
+            preparedStatement.setString(2,"%"+valueSearch+"%");
+            preparedStatement.setString(3,"%"+valueSearch+"%");
+            System.out.println(preparedStatement);
+            ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 String name = rs.getString("ho_va_ten");
                 String date = rs.getString("ngay_sinh");

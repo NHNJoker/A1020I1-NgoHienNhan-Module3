@@ -30,6 +30,13 @@ public class ServicesRepositoryImpl implements ServicesRepository {
     private static final String UPDATE_SERVICE_BY_ID = "update dich_vu\n" +
             "set\tid_dich_vu = ? , ten_dich_vu = ? , dien_tich = ? , so_tang = ? , so_nguoi_toi_da = ? , chi_phi_thue = ? , id_kieu_thue = ? , id_loai_dich_vu = ?, link_anh = ?\n" +
             "where id_dich_vu = ?;";
+    private static final String SEARCH_SERVICE = "select*\n" +
+            "        from dich_vu\n" +
+            "        where ten_dich_vu like ?;";
+    private static final String SELECT_PAGINATION_BY_SEARCH = "with x as( select row_number() over (order by id_dich_vu asc) as row_num, id_dich_vu, ten_dich_vu, dien_tich , so_tang , so_nguoi_toi_da, chi_phi_thue, id_kieu_thue, id_loai_dich_vu, link_anh\n" +
+            "\tfrom dich_vu\n" +
+            "    where ten_dich_vu like ? )\n" +
+            "\tselect * from x where row_num between ?*3-2 and ?*3;";
 
     protected Connection getConnection() {
         Connection connection = null;
@@ -54,6 +61,40 @@ public class ServicesRepositoryImpl implements ServicesRepository {
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PAGINATION)) {
             preparedStatement.setInt(1, index);
             preparedStatement.setInt(2, index);
+            System.out.println(preparedStatement);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id_dich_vu");
+                String name = resultSet.getString("ten_dich_vu");
+                int areaUsed = resultSet.getInt("dien_tich");
+                int numOfFloors = resultSet.getInt("so_tang");
+                int maxPeople = resultSet.getInt("so_nguoi_toi_da");
+                int rentalCost = resultSet.getInt("chi_phi_thue");
+                String rentalType = String.valueOf(resultSet.getInt("id_kieu_thue"));
+                String typeOfService = String.valueOf(resultSet.getInt("id_loai_dich_vu"));
+                String linkImg = resultSet.getString("link_anh");
+
+                serviceList.add(new Service(id, name, areaUsed, numOfFloors, maxPeople, rentalCost, rentalType, typeOfService, linkImg));
+            }
+
+        } catch (SQLException ex) {
+            printSQLException(ex);
+        }
+
+        return serviceList;
+    }
+
+    @Override
+    public List<Service> displayPaginationBySearch(String valueSearch, int index) {
+        List<Service> serviceList = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PAGINATION_BY_SEARCH)) {
+            preparedStatement.setString(1, "%" + valueSearch + "%");
+            preparedStatement.setInt(2, index);
+            preparedStatement.setInt(3, index);
             System.out.println(preparedStatement);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -106,6 +147,39 @@ public class ServicesRepositoryImpl implements ServicesRepository {
 
         try (Connection connection = getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL)) {
+            System.out.println(preparedStatement);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id_dich_vu");
+                String name = resultSet.getString("ten_dich_vu");
+                int areaUsed = resultSet.getInt("dien_tich");
+                int numOfFloors = resultSet.getInt("so_tang");
+                int maxPeople = resultSet.getInt("so_nguoi_toi_da");
+                int rentalCost = resultSet.getInt("chi_phi_thue");
+                String rentalType = String.valueOf(resultSet.getInt("id_kieu_thue"));
+                String typeOfService = String.valueOf(resultSet.getInt("id_loai_dich_vu"));
+                String linkImg = resultSet.getString("link_anh");
+
+                serviceList.add(new Service(id, name, areaUsed, numOfFloors, maxPeople, rentalCost, rentalType, typeOfService, linkImg));
+
+            }
+
+        } catch (SQLException ex) {
+            printSQLException(ex);
+        }
+
+        return serviceList;
+    }
+
+    @Override
+    public List<Service> searchService(String valueSearch) {
+        List<Service> serviceList = new ArrayList<>();
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_SERVICE)) {
+            preparedStatement.setString(1, "%" + valueSearch + "%");
             System.out.println(preparedStatement);
 
             ResultSet resultSet = preparedStatement.executeQuery();

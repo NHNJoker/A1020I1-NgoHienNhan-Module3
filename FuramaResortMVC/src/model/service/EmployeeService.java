@@ -6,13 +6,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface EmployeeService {
-    void addNewEmployee(Employee employee) throws SQLException;
+    String addNewEmployee(Employee employee) throws SQLException;
 
     List<Employee> showAll();
 
+    List<Employee> search(String valueSearch);
+
     Employee showEmployee(int id);
 
-    boolean edit(Employee employee) throws SQLException;
+    String edit(Employee employee) throws SQLException;
 
     Employee showEmployeeEdit(int id);
 

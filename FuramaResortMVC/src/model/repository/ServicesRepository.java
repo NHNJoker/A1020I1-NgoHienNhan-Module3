@@ -8,13 +8,17 @@ import java.util.List;
 public interface ServicesRepository {
     List<Service> displayPagination(int index);
 
-    void addNewService(Service service)throws SQLException;
+    List<Service> displayPaginationBySearch(String valueSearch, int index);
+
+    void addNewService(Service service) throws SQLException;
 
     List<Service> showAll();
 
+    List<Service> searchService(String valueSearch);
+
     Service showServiceByID(int id);
 
-    boolean deleteService(int id) throws  SQLException;
+    boolean deleteService(int id) throws SQLException;
 
-    boolean editService(Service service)throws SQLException;
+    boolean editService(Service service) throws SQLException;
 }
