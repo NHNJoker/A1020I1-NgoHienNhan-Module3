@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Furama resort</title>
-    <link rel="stylesheet" href="bootstrap413/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="datatables/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="bootstrap413/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="datatables/css/dataTables.bootstrap4.min.css"/>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/mdb.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -136,7 +136,8 @@
                     <i class="fas fa-search"></i>
                 </button>
             </form>
-            <a class="nav-link" href="/login?actionUser=logOut" data-mdb-toggle="tooltip" data-bs-placement="bottom" title="Log out ${sessionScope.account.userName}">
+            <a class="nav-link" href="/login?actionUser=logOut" data-mdb-toggle="tooltip" data-bs-placement="bottom"
+               title="Log out ${sessionScope.account.userName}">
                 Log out
             </a>
         </div>
@@ -161,7 +162,8 @@
         <div class="col-xl-3">
             <form class="input-group" action="/customer?actionUser=search" method="post">
                 <div class="form-outline">
-                    <input name="search" type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                    <input name="search" type="search" class="form-control rounded" placeholder="Search"
+                           aria-label="Search"
                            aria-describedby="search-addon"/>
                 </div>
                 <button type="submit" class="btn btn-outline-primary">
@@ -199,14 +201,34 @@
                         <td><c:out value="${customer.address}"/></td>
                         <td><c:out value="${customer.typeOfCus}"/></td>
                         <td>
-                            <a href="/customer?actionUser=edit&idCus=${customer.idCus}">
-                                <button type="submit" class="btn btn-outline-primary">edit</button>
+                            <a href="/customer?actionUser=edit&idCus=${customer.idCus}" class="btn btn-outline-primary text-primary">
+                                Edit
                             </a>
                         </td>
                         <td>
-                            <a href="/customer?actionUser=delete&idCus=${customer.idCus}">
-                                <button type="submit" class="btn btn-outline-primary">Delete</button>
+                            <a type="button" class="btn btn-outline-primary text-primary" data-toggle="modal"
+                                    data-target="#exampleModal${customer.idCus}">
+                                Delete
                             </a>
+                            <div class="modal fade" id="exampleModal${customer.idCus}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Confirm delete</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5>Do you agree to delete ${customer.nameCus} customer?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-primary text-primary" data-dismiss="modal">Close</button>
+                                            <a href="/customer?actionUser=delete&idCus=${customer.idCus}" class="btn btn-outline-primary text-primary">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </c:forEach>
@@ -220,7 +242,9 @@
     <div class="row">
         <div class="col-lg-4">
             <h3 class="text-white mt-lg-5">BẢN ĐỒ</h3>
-            <iframe class="w-100 h-75" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.50245898014!2d108.24769741416945!3d16.039395344498725!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31420fdbc8cc38ef%3A0x9a6a3e31121225d2!2sFurama%20Resort%20Danang!5e0!3m2!1svi!2s!4v1619427748449!5m2!1svi!2s" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <iframe class="w-100 h-75"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.50245898014!2d108.24769741416945!3d16.039395344498725!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31420fdbc8cc38ef%3A0x9a6a3e31121225d2!2sFurama%20Resort%20Danang!5e0!3m2!1svi!2s!4v1619427748449!5m2!1svi!2s"
+                    style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
 
         <div class="col-lg-4"></div>
@@ -248,13 +272,13 @@
 <script src="datatables/js/jquery.dataTables.min.js"></script>
 <script src="datatables/js/dataTables.bootstrap4.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('#tableCus').dataTable( {
+    $(document).ready(function () {
+        $('#tableCus').dataTable({
             "dom": 'lrtip',
             "lengthChange": false,
             "pageLength": 5
-        } );
-    } );
+        });
+    });
 </script>
 <!--js-->
 </body>

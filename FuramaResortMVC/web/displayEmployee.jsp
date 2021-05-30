@@ -208,9 +208,29 @@
                             </a>
                         </td>
                         <td>
-                            <a href="/employee?actionUser=delete&idEmployee=${employee.idEmployee}">
-                                <button type="submit" class="btn btn-outline-primary">Delete</button>
+                            <a type="button" class="btn btn-outline-primary text-primary" data-toggle="modal"
+                               data-target="#exampleModal${employee.idEmployee}">
+                                Delete
                             </a>
+                            <div class="modal fade" id="exampleModal${employee.idEmployee}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Confirm delete</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5>Do you agree to delete ${employee.nameOfEmployee} employee?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-primary text-primary" data-dismiss="modal">Close</button>
+                                            <a href="/employee?actionUser=delete&idEmployee=${employee.idEmployee}" class="btn btn-outline-primary text-primary">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </c:forEach>
