@@ -1,10 +1,10 @@
-let btn = document.getElementById()
-
 function display() {
     document.getElementById("displayService").style.display = "none"
     document.getElementById("displayCus").style.display = "none"
     document.getElementById("displayForm").style.display = "none"
 }
+
+display();
 
 function displayEmployee(id) {
     document.getElementById("displayEmployee").style.display = "none";
@@ -30,5 +30,3 @@ function displayService(id, price) {
     document.getElementById("displayCus").style.display = "none"
     document.getElementById("displayForm").style.display = "block"
 }
-
-display();
